@@ -1,6 +1,6 @@
 name: EnchantmentPack
 main: com.rit.sucy.EnchantmentPack
-version: 1.3
+version: 1.4
 depend: [EnchantmentAPI]
 commands:
     applyenchant:
