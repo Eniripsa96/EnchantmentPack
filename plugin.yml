@@ -1,0 +1,14 @@
+name: EnchantmentPack
+main: com.rit.sucy.EnchantmentPack
+version: 1.3
+depend: [EnchantmentAPI]
+commands:
+    applyenchant:
+        description: applies a custom enchantment to an item
+        usage: /applyenchant <enchantmentName>
+        permission: EnchantmentPack.op
+        permission-message: You lack the privileges to use that!
+permissions:
+    EnchantmentPack.op:
+        description: administrative commands
+        default: op
