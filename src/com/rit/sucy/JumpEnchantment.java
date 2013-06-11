@@ -19,7 +19,7 @@ public class JumpEnchantment extends CustomEnchantment {
     int tierBonus;
 
     public JumpEnchantment(Plugin plugin) {
-        super("Jump", plugin.getConfig().getStringList("Jump.items").toArray(new String[0]));
+        super("Jump", new String[] { "leather_boots", "chainmail_boots", "iron_boots", "gold_boots", "diamond_boots" });
         max = plugin.getConfig().getInt("Jump.max");
         tierBonus = plugin.getConfig().getInt("Jump.tierBonus");
         tierBase = plugin.getConfig().getInt("Jump.tierBase") - tierBonus;
@@ -33,29 +33,24 @@ public class JumpEnchantment extends CustomEnchantment {
 
     @Override
     public void applyEquipEffect(Player player, int enchantLevel) {
-        if (!timers.containsKey(player.getName())) {
-            PotionRunnable runnable = new PotionRunnable(player, PotionEffectType.JUMP, tierBase + tierBonus * enchantLevel);
-            runnable.runTaskTimer(plugin, 0, 95);
-            timers.put(player.getName(), runnable);
-        }
+        PotionRunnable runnable = new PotionRunnable(player, PotionEffectType.JUMP, tierBase + tierBonus * enchantLevel);
+        runnable.runTaskTimer(plugin, 0, 95);
+        timers.put(player.getName(), runnable);
     }
 
     @Override
     public void applyUnequipEffect(Player player, int enchantLevel) {
-        if (!timers.containsKey(player.getName()))
-        {
-            timers.get(player.getName()).cancel();
-            timers.remove(player.getName());
-        }
+        timers.get(player.getName()).cancel();
+        timers.remove(player.getName());
         player.removePotionEffect(PotionEffectType.JUMP);
     }
 
     public static void initializePlayer(Player player) {
-        ItemStack boot = player.getInventory().getBoots();
-        if (boot == null) return;
-        if (boot.getType() == Material.AIR) return;
+        ItemStack helmet = player.getInventory().getHelmet();
+        if (helmet == null) return;
+        if (helmet.getType() == Material.AIR) return;
 
-        for (Map.Entry<CustomEnchantment, Integer> entry : EnchantmentAPI.getEnchantments(boot).entrySet())
+        for (Map.Entry<CustomEnchantment, Integer> entry : EnchantmentAPI.getEnchantments(helmet).entrySet())
             if (entry.getKey().name().equalsIgnoreCase("Jump"))
                 entry.getKey().applyEquipEffect(player, entry.getValue());
     }

@@ -12,7 +12,7 @@ public class LightningEnchantment extends CustomEnchantment {
 
     // Constructor
     public LightningEnchantment(Plugin plugin) {
-        super("Lightning", plugin.getConfig().getStringList("Lightning.items").toArray(new String[0]));
+        super("Lightning", new String[] { "wood_axe", "stone_axe", "iron_axe", "gold_axe", "diamond_axe" });
         max = plugin.getConfig().getInt("Lightning.max");
         chanceBonus = plugin.getConfig().getDouble("Lightning.chanceBonus");
         chanceBase = plugin.getConfig().getDouble("Lightning.chanceBase") - chanceBonus;

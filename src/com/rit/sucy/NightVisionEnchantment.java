@@ -19,7 +19,7 @@ public class NightVisionEnchantment extends CustomEnchantment {
     int tierBonus;
 
     public NightVisionEnchantment(Plugin plugin) {
-        super("Night Vision", plugin.getConfig().getStringList("NightVision.items").toArray(new String[0]));
+        super("Night Vision", new String[] { "leather_helmet", "chainmail_helmet", "iron_helmet", "gold_helmet", "diamond_helmet" });
         this.plugin = plugin;
         max = plugin.getConfig().getInt("NightVision.max");
         tierBonus = plugin.getConfig().getInt("NightVision.tierBonus");

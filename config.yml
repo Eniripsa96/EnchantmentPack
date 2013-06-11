@@ -13,7 +13,7 @@
 #  tierBase: The potion effect tier applied at level 1
 #  tierBonus: The potion effect tier bonus per enchant level
 #  durationBase: The potion duration at level 1
-#  druationBonus: The extra potion duration per enchant level
+#  durationBonus: The extra potion duration per enchant level
 #  powerBase: The explosion power at level 1
 #  powerBonus: The extra explosion power per enchant level
 #  rangeBase: The range of the skill at level 1
@@ -21,12 +21,6 @@
 #
 
 Dash:
-    items:
-    - wood_sword
-    - stone_sword
-    - iron_sword
-    - gold_sword
-    - diamond_sword
     max: 5
     cooldownBase: 5
     cooldownBonus: 0
@@ -35,12 +29,6 @@ Dash:
     speedBase: 3
     speedBonus: 0
 Fervor:
-    items:
-    - wood_sword
-    - stone_sword
-    - iron_sword
-    - gold_sword
-    - diamond_sword
     max: 5
     chanceBase: 100
     chanceBonus: 0
@@ -49,56 +37,26 @@ Fervor:
     durationBase: 1
     durationBonus: 0.5
 FireTrap:
-    items:
-    - wood_shovel
-    - stone_shovel
-    - iron_shovel
-    - gold_shovel
-    - diamond_shovel
     max: 1
     cooldownBase: 20
     cooldownBonus: 0
     powerBase: 4
     powerBonus: 0
 IceTrap:
-    items:
-    - wood_shovel
-    - stone_shovel
-    - iron_shovel
-    - gold_shovel
-    - diamond_shovel
     max: 1
     cooldownBase: 20
     cooldownBonus: 0
 Jump:
-    items:
-    - leather_boots
-    - chainmail_boots
-    - iron_boots
-    - gold_boots
-    - diamond_boots
     max: 2
     tierBase: 1
     tierBonus: 1
 Knockup:
-    items:
-    - wood_sword
-    - stone_sword
-    - iron_sword
-    - gold_sword
-    - diamond_sword
     max: 4
     chanceBase: 5
     chanceBonus: 2.5
     speedBase: 0.8
     speedBonus: 0
 Lifesteal:
-    items:
-    - wood_hoe
-    - stone_hoe
-    - iron_hoe
-    - gold_hoe
-    - diamond_hoe
     max: 5
     chanceBase: 100
     chanceBonus: 0
@@ -107,32 +65,14 @@ Lifesteal:
     cooldownBase: 5
     cooldownBonus: 0
 Lightning:
-    items:
-    - wood_axe
-    - stone_axe
-    - iron_axe
-    - gold_axe
-    - diamond_axe
     max: 5
     chanceBase: 4
     chanceBonus: 4
 NightVision:
-    items:
-    - leather_helmet
-    - chainmail_helmet
-    - iron_helmet
-    - gold_helmet
-    - diamond_helmet
     max: 2
     tierBase: 1
     tierBonus: 1
 Poison:
-    items:
-    - wood_hoe
-    - stone_hoe
-    - iron_hoe
-    - gold_hoe
-    - diamond_hoe
     max: 5
     chanceBase: 100
     chanceBonus: 0
@@ -141,12 +81,6 @@ Poison:
     durationBase: 1
     durationBonus: 0.5
 PoisonTrap:
-    items:
-    - wood_shovel
-    - stone_shovel
-    - iron_shovel
-    - gold_shovel
-    - diamond_shovel
     max: 1
     cooldownBase: 20
     cooldownBonus: 0
@@ -155,36 +89,18 @@ PoisonTrap:
     tierBase: 2
     tierBonus: 0
 Pull:
-    items:
-    - wood_pickaxe
-    - stone_pickaxe
-    - iron_pickaxe
-    - gold_pickaxe
-    - diamond_pickaxe
     max: 5
     cooldownBase: 10
     cooldownBonus: 1
     speedBase: 0.3
     speedBonus: 0
 Reflection:
-    items:
-    - leather_chestplate
-    - chainmail_chestplate
-    - iron_chestplate
-    - gold_chestplate
-    - diamond_chestplate
     max: 10
     chanceBase: 100
     chanceBonus: 0
     percentBase: 10
     percentBonus: 10
 Repulse:
-    items:
-    - wood_sword
-    - stone_sword
-    - iron_sword
-    - gold_sword
-    - diamond_sword
     max: 5
     cooldownBase: 10
     cooldownBonus: 1
@@ -193,12 +109,6 @@ Repulse:
     speedBase: 8
     speedBonus: 0
 Slowing:
-    items:
-    - wood_hoe
-    - stone_hoe
-    - iron_hoe
-    - gold_hoe
-    - diamond_hoe
     max: 5
     chanceBase: 100
     chanceBonus: 0
@@ -207,20 +117,12 @@ Slowing:
     durationBase: 1
     durationBonus: 0.5
 Toss:
-    items:
-    - diamond_sword
     max: 5
     cooldownBase: 15
     cooldownBonus: 0
     speedBase: 1
     speedBonus: 1
 Vortex:
-    items:
-    - wood_pickaxe
-    - stone_pickaxe
-    - iron_pickaxe
-    - gold_pickaxe
-    - diamond_pickaxe
     max: 5
     cooldownBase: 10
     cooldownBonus: 1

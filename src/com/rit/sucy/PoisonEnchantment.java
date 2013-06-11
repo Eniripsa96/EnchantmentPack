@@ -17,7 +17,7 @@ public class PoisonEnchantment extends CustomEnchantment {
     double durationBonus;
 
     public PoisonEnchantment(Plugin plugin) {
-        super("Poison", plugin.getConfig().getStringList("Poison.items").toArray(new String[0]));
+        super("Poison", new String[] { "wood_sword", "stone_sword", "iron_sword", "gold_sword", "diamond_sword" });
         max = plugin.getConfig().getInt("Poison.max");
         chanceBonus = plugin.getConfig().getDouble("Poison.chanceBonus");
         chanceBase = plugin.getConfig().getDouble("Poison.chanceBase") - chanceBonus;

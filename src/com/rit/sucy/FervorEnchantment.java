@@ -23,7 +23,7 @@ public class FervorEnchantment extends CustomEnchantment {
     double durationBonus;
 
     public FervorEnchantment(Plugin plugin) {
-        super("Fervor", plugin.getConfig().getStringList("Fervor.items").toArray(new String[0]));
+        super("Fervor", new String[] { "wood_sword", "stone_sword", "iron_sword", "gold_sword", "diamond_sword" });
         max = plugin.getConfig().getInt("Fervor.max");
         chanceBonus = plugin.getConfig().getDouble("Fervor.chanceBonus");
         chanceBase = plugin.getConfig().getDouble("Fervor.chanceBase") - chanceBonus;

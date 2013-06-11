@@ -6,6 +6,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -33,16 +34,16 @@ public class EPListener implements Listener {
     public void onConnect(PlayerJoinEvent event) {
         NightVisionEnchantment.initializePlayer(event.getPlayer());
         JumpEnchantment.initializePlayer(event.getPlayer());
-
-        ItemStack item = new ItemStack(Material.DIAMOND_CHESTPLATE);
-        item.addUnsafeEnchantment(new TestEnchantment("Test1"), 5);
-        item.addUnsafeEnchantment(new TestEnchantment("Test2"), 5);
-        event.getPlayer().sendMessage("Count: " + item.getEnchantments().size());
-        event.getPlayer().getInventory().addItem(item);
     }
 
     @EventHandler
     public void onDisconnect(PlayerQuitEvent event) {
+        NightVisionEnchantment.clearPlayer(event.getPlayer().getName());
+        JumpEnchantment.clearPlayer(event.getPlayer().getName());
+    }
+
+    @EventHandler
+    public void onDisconnect(PlayerKickEvent event) {
         NightVisionEnchantment.clearPlayer(event.getPlayer().getName());
         JumpEnchantment.clearPlayer(event.getPlayer().getName());
     }

@@ -26,7 +26,7 @@ public class LifestealEnchantment extends CustomEnchantment {
 
     // Constructor
     public LifestealEnchantment(Plugin plugin) {
-        super("Lifesteal", plugin.getConfig().getStringList("Lifesteal.items").toArray(new String[0]));
+        super("Lifesteal", new String[] { "wood_hoe", "stone_hoe", "iron_hoe", "gold_hoe", "diamond_hoe" });
         timers = new Hashtable<String, Long>();
         max = plugin.getConfig().getInt("Lifesteal.max");
         chanceBonus = plugin.getConfig().getDouble("Lifesteal.chanceBonus");

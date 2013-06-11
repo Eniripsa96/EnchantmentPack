@@ -17,8 +17,8 @@ public abstract class TrapEnchantment extends CustomEnchantment {
     protected boolean[][] layout;
     protected int radius;
 
-    public TrapEnchantment(String name, String[] items, int radius) {
-        super (name, items, 1);
+    public TrapEnchantment(String name, int radius) {
+        super (name, new String[] { "wood_shovel", "stone_shovel", "iron_shovel", "gold_shovel", "diamond_shovel" }, 1);
         this.radius = radius;
         timers = new Hashtable<String, Long>();
     }

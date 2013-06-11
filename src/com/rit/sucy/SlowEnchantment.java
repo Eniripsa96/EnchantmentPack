@@ -17,7 +17,7 @@ public class SlowEnchantment extends CustomEnchantment {
     double durationBonus;
 
     public SlowEnchantment(Plugin plugin) {
-        super("Slowing", plugin.getConfig().getStringList("Slowing.items").toArray(new String[0]));
+        super("Slowing", new String[] { "wood_sword", "stone_sword", "iron_sword", "gold_sword", "diamond_sword" });
         max = plugin.getConfig().getInt("Slowing.max");
         chanceBonus = plugin.getConfig().getDouble("Slowing.chanceBonus");
         chanceBase = plugin.getConfig().getDouble("Slowing.chanceBase") - chanceBonus;

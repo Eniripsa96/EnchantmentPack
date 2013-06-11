@@ -14,7 +14,7 @@ public class KnockupEnchantment extends CustomEnchantment {
     double speedBonus;
 
     public KnockupEnchantment(Plugin plugin) {
-        super("Knockup", plugin.getConfig().getStringList("Knockup.items").toArray(new String[0]), 10);
+        super("Knockup", new String[] { "wood_sword", "stone_sword", "iron_sword", "gold_sword", "diamond_sword" }, 10);
         this.plugin = plugin;
         max = plugin.getConfig().getInt("Knockup.max");
         chanceBonus = plugin.getConfig().getDouble("Knockup.chanceBonus");

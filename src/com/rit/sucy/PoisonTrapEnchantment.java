@@ -17,7 +17,7 @@ public class PoisonTrapEnchantment extends TrapEnchantment {
     double durationBonus;
 
     public PoisonTrapEnchantment(Plugin plugin) {
-        super("Poison Trap", plugin.getConfig().getStringList("PoisonTrap.items").toArray(new String[0]), 4);
+        super("Poison Trap", 4);
         max = plugin.getConfig().getInt("PoisonTrap.max");
         cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("PoisonTrap.cooldownBonus"));
         cooldownBase = (long)(1000 * plugin.getConfig().getDouble("PoisonTrap.cooldownBase")) + cooldownBonus;

@@ -23,7 +23,7 @@ public class VortexEnchantment extends CustomEnchantment {
     Hashtable<String, Long> timers;
 
     public VortexEnchantment(Plugin plugin) {
-        super("Pull", plugin.getConfig().getStringList("Vortex.items").toArray(new String[0]), 2);
+        super("Vortex", new String[] { "wood_pickaxe", "stone_pickaxe", "iron_pickaxe", "gold_pickaxe", "diamond_pickaxe" }, 2);
         timers = new Hashtable<String, Long>();
         max = plugin.getConfig().getInt("Vortex.max");
         cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("Vortex.cooldownBonus"));

@@ -11,7 +11,7 @@ public class IceTrapEnchantment extends TrapEnchantment {
     long cooldownBonus;
 
     public IceTrapEnchantment(Plugin plugin) {
-        super("Ice Trap", plugin.getConfig().getStringList("IceTrap.items").toArray(new String[0]), 4);
+        super("Ice Trap", 4);
         max = plugin.getConfig().getInt("IceTrap.max");
         cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("IceTrap.cooldownBonus"));
         cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("IceTrap.cooldownBase")) + cooldownBonus;

@@ -13,7 +13,7 @@ public class FireTrapEnchantment extends TrapEnchantment {
     long cooldownBonus;
 
     public FireTrapEnchantment(Plugin plugin) {
-        super("Fire Trap", plugin.getConfig().getStringList("FireTrap.items").toArray(new String[0]), 4);
+        super("Fire Trap", 4);
         max = plugin.getConfig().getInt("FireTrap.max");
         powerBonus = plugin.getConfig().getDouble("FireTrap.powerBonus");
         powerBase = plugin.getConfig().getDouble("FireTrap.powerBase") - powerBonus;

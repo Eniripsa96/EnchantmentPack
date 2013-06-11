@@ -1,11 +1,8 @@
 package com.rit.sucy;
 
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
@@ -22,7 +19,7 @@ public class PullEnchantment extends CustomEnchantment {
     Hashtable<String, Long> timers;
 
     public PullEnchantment(Plugin plugin) {
-        super("Pull", plugin.getConfig().getStringList("Pull.items").toArray(new String[0]), 2);
+        super("Pull", new String[] { "wood_pickaxe", "stone_pickaxe", "iron_pickaxe", "gold_pickaxe", "diamond_pickaxe" }, 2);
         timers = new Hashtable<String, Long>();
         max = plugin.getConfig().getInt("Pull.max");
         cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("Pull.cooldownBonus"));

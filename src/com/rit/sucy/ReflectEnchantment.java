@@ -13,7 +13,7 @@ public class ReflectEnchantment extends CustomEnchantment {
     double percentBonus;
 
     public ReflectEnchantment(Plugin plugin) {
-        super("Reflection", plugin.getConfig().getStringList("Reflection.items").toArray(new String[0]));
+        super("Reflection", new String[] { "leather_chestplate", "chainmail_chestplate", "iron_chestplate", "gold_chestplate", "diamond_chestplate"});
         max = plugin.getConfig().getInt("Reflection.max");
         chanceBonus = plugin.getConfig().getDouble("Reflection.chanceBonus");
         chanceBase = plugin.getConfig().getDouble("Reflection.chanceBase") - chanceBonus;
@@ -30,6 +30,6 @@ public class ReflectEnchantment extends CustomEnchantment {
     public void applyDefenseEffect(LivingEntity user, LivingEntity target, int enchantLevel,
             EntityDamageEvent event) {
         if (Math.random() * 100 < chanceBase + chanceBonus * enchantLevel && target != null)
-                target.damage((int)(event.getDamage() * (percentBase + percentBonus * enchantLevel)), user);
+                target.damage((int)(event.getDamage() * (percentBase + percentBonus * enchantLevel) / 100), user);
     }
 }

@@ -23,7 +23,7 @@ public class RepulseEnchantment extends CustomEnchantment {
     Hashtable<String, Long> timers;
 
     public RepulseEnchantment(Plugin plugin) {
-        super("Repulse", plugin.getConfig().getStringList("Repulse.items").toArray(new String[0]), 2);
+        super("Repulse", new String[] { "wood_sword", "stone_sword", "iron_sword", "gold_sword", "diamond_sword" }, 2);
         timers = new Hashtable<String, Long>();
         max = plugin.getConfig().getInt("Repulse.max");
         cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("Repulse.cooldownBonus"));

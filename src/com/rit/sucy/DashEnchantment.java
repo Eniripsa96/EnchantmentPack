@@ -23,7 +23,7 @@ public class DashEnchantment extends CustomEnchantment {
     Plugin plugin;
 
     public DashEnchantment(Plugin plugin) {
-        super("Dash", plugin.getConfig().getStringList("Dash.items").toArray(new String[0]), 2);
+        super("Dash", new String[] { "wood_sword", "stone_sword", "iron_sword", "gold_sword", "diamond_sword" }, 2);
         max = plugin.getConfig().getInt("Dash.max");
         cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("Dash.cooldownBonus"));
         cooldownBase = (long)(1000 * plugin.getConfig().getDouble("Dash.cooldownBase")) + cooldownBonus;
