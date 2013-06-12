@@ -10,49 +10,49 @@ import org.bukkit.util.Vector;
 
 import java.util.Hashtable;
 
-public class VortexEnchantment extends CustomEnchantment {
+/**
+ * Drags all nearby enemies towards you
+ */
+public class VortexEnchantment extends ConfigurableEnchantment {
 
-    int max;
-    long cooldownBase;
-    long cooldownBonus;
-    int rangeBase;
-    int rangeBonus;
-    double speedBase;
-    double speedBonus;
-
-    Hashtable<String, Long> timers;
-
+    /**
+     * Constructor
+     *
+     * @param plugin plugin reference
+     */
     public VortexEnchantment(Plugin plugin) {
-        super("Vortex", new String[] { "wood_pickaxe", "stone_pickaxe", "iron_pickaxe", "gold_pickaxe", "diamond_pickaxe" }, 2);
-        timers = new Hashtable<String, Long>();
-        max = plugin.getConfig().getInt("Vortex.max");
-        cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("Vortex.cooldownBonus"));
-        cooldownBase = (long)(1000 * plugin.getConfig().getDouble("Vortex.cooldownBase")) + cooldownBonus;
-        rangeBonus = plugin.getConfig().getInt("Vortex.rangeBonus");
-        rangeBase = plugin.getConfig().getInt("Vortex.rangeBase") - rangeBonus;
-        speedBonus = plugin.getConfig().getDouble("Vortex.speedBonus");
-        speedBase = plugin.getConfig().getDouble("Vortex.speedBase") - speedBonus;
+        super(plugin, EnchantDefaults.VORTEX, ItemSets.PICKAXES.getItems(), 2);
     }
 
-    @Override
-    public int getEnchantmentLevel(int expLevel) {
-        return expLevel * max / 50 + 1;
-    }
-
+    /**
+     * Drags all nearby enemies closer on right click
+     *
+     * @param player player with the enchantment
+     * @param level  enchantment level
+     * @param event  event details
+     */
     @Override
     public void applyMiscEffect(Player player, int level, PlayerInteractEvent event) {
 
+        // Make sure the cooldown timer is not null
         if (timers.get(player.getName()) == null) timers.put(player.getName(), 0l);
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
-            if (System.currentTimeMillis() - timers.get(player.getName()) < cooldownBase + cooldownBonus * level) return;
 
-            int range = rangeBase + rangeBonus * level;
+        // Make sure it is a right click
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
+
+            // Check the cooldown
+            if (System.currentTimeMillis() - timers.get(player.getName()) < cooldown(level)) return;
+
+            // Drag all nearby enemies closer
+            int range = range(level);
             for (Entity entity : player.getNearbyEntities(range, range, range)) {
                 if (!(entity instanceof LivingEntity)) continue;
                 Vector velocity = player.getLocation().subtract(entity.getLocation()).toVector();
                 velocity.setY(velocity.getY() / 2);
-                entity.setVelocity(velocity.multiply(speedBase + speedBonus * level));
+                entity.setVelocity(velocity.multiply(speed(level)));
             }
+
+            // Update the cooldown timer
             timers.put(player.getName(), System.currentTimeMillis());
         }
     }

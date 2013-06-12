@@ -1,30 +1,22 @@
 package com.rit.sucy;
 
-import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+/**
+ * Places a poison trap that poisons all foes who pass through it
+ */
 public class PoisonTrapEnchantment extends TrapEnchantment {
 
-    int max;
-    long cooldownBase;
-    long cooldownBonus;
-    int tierBase;
-    int tierBonus;
-    double durationBase;
-    double durationBonus;
-
+    /**
+     * Constructor
+     *
+     * @param plugin plugin reference
+     */
     public PoisonTrapEnchantment(Plugin plugin) {
-        super("Poison Trap", 4);
-        max = plugin.getConfig().getInt("PoisonTrap.max");
-        cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("PoisonTrap.cooldownBonus"));
-        cooldownBase = (long)(1000 * plugin.getConfig().getDouble("PoisonTrap.cooldownBase")) + cooldownBonus;
-        tierBonus = plugin.getConfig().getInt("PoisonTrap.tierBonus");
-        tierBase = plugin.getConfig().getInt("PoisonTrap.tierBase") - tierBonus;
-        durationBonus = plugin.getConfig().getDouble("PoisonTrap.durationBonus");
-        durationBase = plugin.getConfig().getDouble("PoisonTrap.durationBase") - durationBonus;
+        super(plugin, EnchantDefaults.POISON_TRAP, 4);
         layout = new boolean[][] {
                 { false, false, false,  true },
                 { false, false,  true,  true,  true },
@@ -35,23 +27,18 @@ public class PoisonTrapEnchantment extends TrapEnchantment {
                 { false, false, false,  true }};
     }
 
+    /**
+     * Applies poison to all enemies in the trap
+     *
+     * @param trap  trap being updated
+     * @param level enchantment level used for the trap
+     */
     @Override
     public void onUpdate(Trap trap, int level) {
         for (LivingEntity entity : trap.inRange) {
             if (entity != trap.owner) {
-                entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON,
-                        (int)(20 * (durationBase + durationBonus * level)) - 1, tierBase + tierBonus * level), true);
+                entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, duration(level), tier(level)), true);
             }
         }
-    }
-
-    @Override
-    public int getEnchantmentLevel(int expLevel) {
-        return expLevel * max / 50 + 1;
-    }
-
-    @Override
-    protected long cooldown(int level) {
-        return cooldownBase - cooldownBonus * level;
     }
 }

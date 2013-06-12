@@ -3,26 +3,24 @@ package com.rit.sucy;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.Hashtable;
-
 /**
- * Passively grants bonus jump height
+ * Applies wither when hit
  */
-public class JumpEnchantment extends PotionPassiveEnchantment {
+public class CursedEnchantment extends PotionReflectEnchantment {
 
     /**
      * Constructor
      *
      * @param plugin plugin reference
      */
-    public JumpEnchantment(Plugin plugin) {
-        super(plugin, EnchantDefaults.JUMP, ItemSets.BOOTS.getItems());
+    public CursedEnchantment(Plugin plugin) {
+        super(plugin, EnchantDefaults.CURSED, ItemSets.CHESTPLATES.getItems());
     }
 
     /**
      * @return potion type applied by this enchantment
      */
     public PotionEffectType type() {
-        return PotionEffectType.JUMP;
+        return PotionEffectType.WITHER;
     }
 }

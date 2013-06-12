@@ -4,23 +4,23 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 
 /**
- * Slows enemies on hit
+ * Applies weakness when hit by an enemy
  */
-public class SlowEnchantment extends PotionInflictEnchantment {
+public class DemoralizingEnchantment extends PotionReflectEnchantment {
 
     /**
      * Constructor
      *
      * @param plugin plugin reference
      */
-    public SlowEnchantment(Plugin plugin) {
-        super(plugin, EnchantDefaults.SLOWING, ItemSets.PICKAXES.getItems());
+    public DemoralizingEnchantment(Plugin plugin) {
+        super(plugin, EnchantDefaults.DEMORALIZING, ItemSets.CHESTPLATES.getItems());
     }
 
     /**
      * @return type of potion applied by this enchantment
      */
     public PotionEffectType type() {
-        return PotionEffectType.SLOW;
+        return PotionEffectType.WEAKNESS;
     }
 }

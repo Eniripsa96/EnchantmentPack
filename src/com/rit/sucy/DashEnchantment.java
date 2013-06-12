@@ -5,57 +5,55 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
+import sun.awt.ConstrainableGraphics;
 
 import java.util.Hashtable;
 
-public class DashEnchantment extends CustomEnchantment {
+/**
+ * Dashes forward, dealing damage along the way
+ */
+public class DashEnchantment extends ConfigurableEnchantment {
 
-    Hashtable<String, Long> timers;
-
-    int max;
-    long cooldownBase;
-    long cooldownBonus;
-    double speedBase;
-    double speedBonus;
-    int damageBase;
-    int damageBonus;
-
-    Plugin plugin;
-
+    /**
+     * Constructor
+     *
+     * @param plugin plugin reference
+     */
     public DashEnchantment(Plugin plugin) {
-        super("Dash", new String[] { "wood_sword", "stone_sword", "iron_sword", "gold_sword", "diamond_sword" }, 2);
-        max = plugin.getConfig().getInt("Dash.max");
-        cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("Dash.cooldownBonus"));
-        cooldownBase = (long)(1000 * plugin.getConfig().getDouble("Dash.cooldownBase")) + cooldownBonus;
-        speedBonus = plugin.getConfig().getDouble("Dash.speedBonus");
-        speedBase = plugin.getConfig().getDouble("Dash.speedBase") - speedBonus;
-        damageBonus = plugin.getConfig().getInt("Dash.damageBonus");
-        damageBase = plugin.getConfig().getInt("Dash.damageBase") - damageBonus;
-        this.plugin = plugin;
-        timers = new Hashtable<String, Long>();
+        super(plugin, EnchantDefaults.DASH, ItemSets.SWORDS.getItems(), 2);
     }
 
-    @Override
-    public int getEnchantmentLevel(int expLevel) {
-        return expLevel * max / 50 + 1;
-    }
-
+    /**
+     * Applies the enchantment effect upon right click
+     *
+     * @param player player with the enchantment
+     * @param level  enchantment level
+     * @param event  event details
+     */
     @Override
     public void applyMiscEffect(Player player, int level, PlayerInteractEvent event) {
 
+        // Make sure the cooldown timer isn't null
         if (timers.get(player.getName()) == null) timers.put(player.getName(), 0l);
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
-            if (System.currentTimeMillis() - timers.get(player.getName()) < cooldownBase - cooldownBonus) return;
 
+        // Make sure it was a right click
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
+
+            // Check the cooldown
+            if (System.currentTimeMillis() - timers.get(player.getName()) < cooldown(level)) return;
+
+            // Dash forward
             Vector vector = player.getLocation().getDirection();
             vector.setY(0);
-            vector.multiply((speedBase + speedBonus) / vector.length());
+            vector.multiply(speed(level) / vector.length());
             vector.setY(0.2);
             player.setVelocity(vector);
 
-            DashTask task = new DashTask(plugin, player, damageBase + damageBonus, 3);
+            // Apply damage while moving
+            DashTask task = new DashTask(plugin, player, damage(level), 3);
             task.runTask(plugin);
 
+            // Update cooldown timer
             timers.put(player.getName(), System.currentTimeMillis());
         }
     }

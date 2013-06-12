@@ -6,65 +6,88 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
 import java.util.Hashtable;
 
-public class TossEnchantment extends CustomEnchantment{
+/**
+ * Picks up and then throws an enemy
+ */
+public class TossEnchantment extends ConfigurableEnchantment {
 
-    int max;
-    long cooldownBase;
-    long cooldownBonus;
-    double speedBase;
-    double speedBonus;
-
-    // Cooldown timer for the ability
-    Hashtable<String, Long> timers = new Hashtable<String, Long>();
-
-    public TossEnchantment(JavaPlugin plugin) {
-        super("Toss", new String[] { "diamond_sword" });
-        max = plugin.getConfig().getInt("Toss.max");
-        cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("Toss.cooldownBonus"));
-        cooldownBase = (long)(1000 * plugin.getConfig().getDouble("Toss.cooldownBase")) + cooldownBonus;
-        speedBonus = plugin.getConfig().getDouble("Toss.speedBonus");
-        speedBase = plugin.getConfig().getDouble("Toss.speedBase") - speedBonus;
+    /**
+     * Constructor
+     *
+     * @param plugin plugin reference
+     */
+    public TossEnchantment(Plugin plugin) {
+        super(plugin, EnchantDefaults.TOSS, new String[] { "diamond_sword" });
     }
 
+    /**
+     * Picks up an enemy
+     *
+     * @param player player with the enchantment
+     * @param level enchantment level
+     * @param event event details
+     */
     @Override
-    public void applyEntityEffect(Player player, int enchantLevel, PlayerInteractEntityEvent event) {
+    public void applyEntityEffect(Player player, int level, PlayerInteractEntityEvent event) {
+
+        // Make sure the target is living
         if(event.getRightClicked() instanceof LivingEntity){
-        LivingEntity enemy = (LivingEntity)event.getRightClicked();
-            long cooldown = cooldownBase - cooldownBonus * enchantLevel;
+            LivingEntity enemy = (LivingEntity)event.getRightClicked();
+            long cooldown = cooldown(level);
+
+            // Make sure the cooldown timer is not null
             if (!timers.containsKey(player.getName())) timers.put(player.getName(), 0l);
-            if (System.currentTimeMillis() - timers.get(player.getName()) > cooldownBase - cooldownBonus * enchantLevel) {
+
+            // Check the cooldown
+            if (System.currentTimeMillis() - timers.get(player.getName()) > cooldown) {
+
+                // Grab the target
                 player.setPassenger(enemy);
                 if (enemy instanceof Player)
-                    ((Player)enemy).sendMessage(ChatColor.GREEN+player.getDisplayName()+ChatColor.GRAY+" just picked you up with "+ ChatColor.LIGHT_PURPLE + "Toss "+enchantLevel+ChatColor.GRAY+".");
+                    ((Player)enemy).sendMessage(ChatColor.GREEN+player.getDisplayName()+ChatColor.GRAY+" just picked you up with "+ ChatColor.LIGHT_PURPLE + "Toss "+level+ChatColor.GRAY+".");
+
+                // Update the cooldown timer
                 timers.put(player.getName(), System.currentTimeMillis());
+
+            // On-cooldown message
             }else{
                 player.sendMessage("You have " + ((int)(cooldown - System.currentTimeMillis() + timers.get(player.getName())) / 1000 + 1) + " seconds left.");
             }
         }
     }
+
+    /**
+     * Throws a grabbed target
+     *
+     * @param player player with enchantment
+     * @param level  enchantment level
+     * @param event  event details
+     */
     @Override
-    public void applyMiscEffect(Player player, int enchantLevel, PlayerInteractEvent event){
+    public void applyMiscEffect(Player player, int level, PlayerInteractEvent event){
         Player p = event.getPlayer();
+
+        // Make sure the player has grabbed an enemy
         if(p.getPassenger() !=null && p.getPassenger() instanceof LivingEntity){
             LivingEntity enemy = (LivingEntity)p.getPassenger();
+
+            // Make sure it was a left click
             if(event.getAction() == Action.LEFT_CLICK_AIR){
+
+                // Launch the enemy
                 Vector vector = p.getEyeLocation().getDirection();
                 p.eject();
-                vector.multiply((speedBase + speedBonus * enchantLevel) / vector.length());
+                vector.multiply(speed(level) / vector.length());
+                vector.setY(vector.getY() / 2);
                 enemy.setVelocity(vector);
                 if (enemy instanceof Player)
-                    ((Player)enemy).sendMessage(ChatColor.GREEN+p.getDisplayName()+ChatColor.GRAY+" just threw you with " + ChatColor.LIGHT_PURPLE + "Toss " + enchantLevel+ChatColor.GRAY + ".");
+                    ((Player)enemy).sendMessage(ChatColor.GREEN+p.getDisplayName()+ChatColor.GRAY+" just threw you with " + ChatColor.LIGHT_PURPLE + "Toss " + level+ChatColor.GRAY + ".");
             }
         }
-    }
-    @Override
-    public int getEnchantmentLevel(int expLevel) {
-        // This allows for an enchantment level of up to 5. (49 / 10 + 1 = 5 when rounded down)
-        return expLevel / 10 + 1;
     }
 }

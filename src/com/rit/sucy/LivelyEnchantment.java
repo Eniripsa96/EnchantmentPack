@@ -3,26 +3,24 @@ package com.rit.sucy;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.Hashtable;
-
 /**
- * Passively grants bonus jump height
+ * Gains movement speed when hit
  */
-public class JumpEnchantment extends PotionPassiveEnchantment {
+public class LivelyEnchantment extends PotionAbsorbEnchantment {
 
     /**
      * Constructor
      *
      * @param plugin plugin reference
      */
-    public JumpEnchantment(Plugin plugin) {
-        super(plugin, EnchantDefaults.JUMP, ItemSets.BOOTS.getItems());
+    public LivelyEnchantment(Plugin plugin) {
+        super(plugin, EnchantDefaults.LIVELY, ItemSets.BOOTS.getItems());
     }
 
     /**
      * @return potion type applied by this enchantment
      */
     public PotionEffectType type() {
-        return PotionEffectType.JUMP;
+        return PotionEffectType.SPEED;
     }
 }

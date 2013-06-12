@@ -3,26 +3,24 @@ package com.rit.sucy;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.Hashtable;
-
 /**
- * Passively grants bonus jump height
+ * Gain damage when hit
  */
-public class JumpEnchantment extends PotionPassiveEnchantment {
+public class AdrenalineEnchantment extends PotionAbsorbEnchantment {
 
     /**
      * Constructor
      *
      * @param plugin plugin reference
      */
-    public JumpEnchantment(Plugin plugin) {
-        super(plugin, EnchantDefaults.JUMP, ItemSets.BOOTS.getItems());
+    public AdrenalineEnchantment(Plugin plugin) {
+        super(plugin, EnchantDefaults.ADRENALINE, ItemSets.LEGGINGS.getItems());
     }
 
     /**
      * @return potion type applied by this enchantment
      */
     public PotionEffectType type() {
-        return PotionEffectType.JUMP;
+        return PotionEffectType.INCREASE_DAMAGE;
     }
 }

@@ -8,41 +8,45 @@ import org.bukkit.util.Vector;
 
 import java.util.Hashtable;
 
-public class PullEnchantment extends CustomEnchantment {
+/**
+ * Pulls a target enemy towards you
+ */
+public class PullEnchantment extends ConfigurableEnchantment {
 
-    int max;
-    long cooldownBase;
-    long cooldownBonus;
-    double speedBase;
-    double speedBonus;
-
-    Hashtable<String, Long> timers;
-
+    /**
+     * Constructor
+     *
+     * @param plugin plugin reference
+     */
     public PullEnchantment(Plugin plugin) {
-        super("Pull", new String[] { "wood_pickaxe", "stone_pickaxe", "iron_pickaxe", "gold_pickaxe", "diamond_pickaxe" }, 2);
-        timers = new Hashtable<String, Long>();
-        max = plugin.getConfig().getInt("Pull.max");
-        cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("Pull.cooldownBonus"));
-        cooldownBase = (long)(1000 * plugin.getConfig().getDouble("Pull.cooldownBase")) + cooldownBonus;
-        speedBonus = plugin.getConfig().getDouble("Pull.speedBonus");
-        speedBase = plugin.getConfig().getDouble("Pull.speedBase") - speedBonus;
+        super(plugin, EnchantDefaults.PULL, ItemSets.PICKAXES.getItems(), 2);
     }
 
-    @Override
-    public int getEnchantmentLevel(int expLevel) {
-        return expLevel * max / 50 + 1;
-    }
-
+    /**
+     * Pulls the target enemy closer
+     *
+     * @param player player with the enchantment
+     * @param level  enchantment level
+     * @param event  event details
+     */
     @Override
     public void applyEntityEffect(Player player, int level, PlayerInteractEntityEvent event) {
 
+        // Make sure the target is living
         if (!(event.getRightClicked() instanceof LivingEntity)) return;
-        if (timers.get(player.getName()) == null) timers.put(player.getName(), 0l);
-        if (System.currentTimeMillis() - timers.get(player.getName()) < cooldownBase + cooldownBonus * level) return;
 
+        // Make sure the cooldown timer isn't null
+        if (timers.get(player.getName()) == null) timers.put(player.getName(), 0l);
+
+        // Check the cooldown
+        if (System.currentTimeMillis() - timers.get(player.getName()) < cooldown(level)) return;
+
+        // Pull the target in
         Vector velocity = player.getLocation().subtract(event.getRightClicked().getLocation()).toVector();
         velocity.setY(velocity.getY() / 2);
-        event.getRightClicked().setVelocity(velocity.multiply(speedBase + speedBonus * level));
+        event.getRightClicked().setVelocity(velocity.multiply(speed(level)));
+
+        // Update the cooldown timer
         timers.put(player.getName(), System.currentTimeMillis());
     }
 }

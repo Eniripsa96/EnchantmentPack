@@ -4,30 +4,31 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.plugin.Plugin;
 
-public class LightningEnchantment extends CustomEnchantment {
+/**
+ * Has a chance to strike lightning on hit
+ */
+public class LightningEnchantment extends ConfigurableEnchantment {
 
-    int max;
-    double chanceBase;
-    double chanceBonus;
-
-    // Constructor
+    /**
+     * Constructor
+     *
+     * @param plugin plugin reference
+     */
     public LightningEnchantment(Plugin plugin) {
-        super("Lightning", new String[] { "wood_axe", "stone_axe", "iron_axe", "gold_axe", "diamond_axe" });
-        max = plugin.getConfig().getInt("Lightning.max");
-        chanceBonus = plugin.getConfig().getDouble("Lightning.chanceBonus");
-        chanceBase = plugin.getConfig().getDouble("Lightning.chanceBase") - chanceBonus;
-
+        super(plugin, EnchantDefaults.LIGHTNING, ItemSets.AXES.getItems());
     }
 
-    @Override
-    public int getEnchantmentLevel(int expLevel) {
-        return expLevel * max / 50 + 1;
-    }
-
-    // Strikes lightning at the target's location
+    /**
+     * Strikes lightning on hit
+     *
+     * @param user   player with the enchantment
+     * @param target enemy that was hit
+     * @param level  enchantment level
+     * @param event  event details
+     */
     @Override
     public void applyEffect(LivingEntity user, LivingEntity target, int level, EntityDamageByEntityEvent event) {
-        if (Math.random() * 100 < chanceBase + chanceBonus * level)
+        if (roll(level))
             target.getWorld().strikeLightning(target.getLocation());
     }
 }

@@ -10,50 +10,49 @@ import org.bukkit.util.Vector;
 
 import java.util.Hashtable;
 
-public class RepulseEnchantment extends CustomEnchantment {
+/**
+ * Pushes all nearby enemies away
+ */
+public class RepulseEnchantment extends ConfigurableEnchantment {
 
-    int max;
-    long cooldownBase;
-    long cooldownBonus;
-    int rangeBase;
-    int rangeBonus;
-    double speedBase;
-    double speedBonus;
-
-    Hashtable<String, Long> timers;
-
+    /**
+     * Constructor
+     *
+     * @param plugin plugin reference
+     */
     public RepulseEnchantment(Plugin plugin) {
-        super("Repulse", new String[] { "wood_sword", "stone_sword", "iron_sword", "gold_sword", "diamond_sword" }, 2);
-        timers = new Hashtable<String, Long>();
-        max = plugin.getConfig().getInt("Repulse.max");
-        cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("Repulse.cooldownBonus"));
-        cooldownBase = (long)(1000 * plugin.getConfig().getDouble("Repulse.cooldownBase")) + cooldownBonus;
-        rangeBonus = plugin.getConfig().getInt("Repulse.rangeBonus");
-        rangeBase = plugin.getConfig().getInt("Repulse.rangeBase") - rangeBonus;
-        speedBonus = plugin.getConfig().getDouble("Repulse.speedBonus");
-        speedBase = plugin.getConfig().getDouble("Repulse.speedBase") - speedBonus;
+        super(plugin, EnchantDefaults.REPULSE, ItemSets.SWORDS.getItems(), 2);
     }
 
-    @Override
-    public int getEnchantmentLevel(int expLevel) {
-        return expLevel * max / 50 + 1;
-    }
-
+    /**
+     * Pushes all enemies away on right click
+     *
+     * @param player player with the enchantment
+     * @param level  enchantment level
+     * @param event  event details
+     */
     @Override
     public void applyMiscEffect(Player player, int level, PlayerInteractEvent event) {
 
+        // Make sure the cooldown timer isn't null
         if (timers.get(player.getName()) == null) timers.put(player.getName(), 0l);
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
-            if (timers.get(player.getName()) == null) timers.put(player.getName(), 0l);
-            if (System.currentTimeMillis() - timers.get(player.getName()) < cooldownBase - cooldownBonus * level) return;
 
-            int range = rangeBase + rangeBonus * level;
+        // Make sure it was a right click
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
+
+            // Check the cooldown
+            if (System.currentTimeMillis() - timers.get(player.getName()) < cooldown(level)) return;
+
+            // Pull in nearby enemies
+            int range = range(level);
             for (Entity entity : player.getNearbyEntities(range, range, range)) {
                 if (!(entity instanceof LivingEntity)) continue;
                 Vector velocity = entity.getLocation().subtract(player.getLocation()).toVector();
                 velocity.setY(velocity.getY() / 3);
-                entity.setVelocity(velocity.multiply((speedBase + speedBonus * level) / (1 + velocity.lengthSquared())));
+                entity.setVelocity(velocity.multiply(speed(level) / (1 + velocity.lengthSquared())));
             }
+
+            // Update the cooldown timer
             timers.put(player.getName(), System.currentTimeMillis());
         }
     }

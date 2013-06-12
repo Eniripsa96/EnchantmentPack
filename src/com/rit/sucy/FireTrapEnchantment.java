@@ -4,21 +4,18 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.Plugin;
 
+/**
+ * Places a fire trap that explodes in flames when an enemy enters it
+ */
 public class FireTrapEnchantment extends TrapEnchantment {
 
-    int max;
-    double powerBase;
-    double powerBonus;
-    long cooldownBase;
-    long cooldownBonus;
-
+    /**
+     * Constructor
+     *
+     * @param plugin plugin reference
+     */
     public FireTrapEnchantment(Plugin plugin) {
-        super("Fire Trap", 4);
-        max = plugin.getConfig().getInt("FireTrap.max");
-        powerBonus = plugin.getConfig().getDouble("FireTrap.powerBonus");
-        powerBase = plugin.getConfig().getDouble("FireTrap.powerBase") - powerBonus;
-        cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("FireTrap.cooldownBonus"));
-        cooldownBase = (long)(1000 * plugin.getConfig().getDouble("FireTrap.cooldownBase")) + cooldownBonus;
+        super(plugin, EnchantDefaults.FIRE_TRAP, 4);
         layout = new boolean[][] {
                 { false, false,  true,  true,  true },
                 { false, false, false,  true },
@@ -29,22 +26,19 @@ public class FireTrapEnchantment extends TrapEnchantment {
                 { false, false,  true,  true,  true }};
     }
 
+    /**
+     * Blows up the trap when an enemy enters the trap
+     *
+     * @param trap   trap walked into
+     * @param entity enemy that walked into the trap
+     * @param level  enchantment level used for the trap
+     */
     @Override
     public void onEnter(Trap trap, LivingEntity entity, int level) {
         if (entity != trap.owner) {
             Location loc = entity.getLocation();
-            entity.getWorld().createExplosion(loc.getX(), loc.getY(), loc.getZ(), (float)(powerBase + powerBonus * level), true, false);
+            entity.getWorld().createExplosion(loc.getX(), loc.getY(), loc.getZ(), power(level), true, false);
             trap.remove();
         }
-    }
-
-    @Override
-    public int getEnchantmentLevel(int expLevel) {
-        return expLevel * max / 50 + 1;
-    }
-
-    @Override
-    protected long cooldown(int level) {
-        return cooldownBase - cooldownBonus * level;
     }
 }

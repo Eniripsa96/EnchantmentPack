@@ -2,60 +2,54 @@ package com.rit.sucy;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.SmallFireball;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Hashtable;
 
-// Lifesteal custom enchantment
-public class LifestealEnchantment extends CustomEnchantment {
+/**
+ * Gain health on striking an enemy
+ */
+public class LifestealEnchantment extends ConfigurableEnchantment {
 
-    int max;
-    double chanceBase;
-    double chanceBonus;
-    long cooldownBase;
-    long cooldownBonus;
-    int healthBase;
-    int healthBonus;
-
-    // Cooldown timer for the lifesteal ability
-    Hashtable<String, Long> timers;
-
-    // Constructor
+    /**
+     * Constructor
+     *
+     * @param plugin plugin reference
+     */
     public LifestealEnchantment(Plugin plugin) {
-        super("Lifesteal", new String[] { "wood_hoe", "stone_hoe", "iron_hoe", "gold_hoe", "diamond_hoe" });
-        timers = new Hashtable<String, Long>();
-        max = plugin.getConfig().getInt("Lifesteal.max");
-        chanceBonus = plugin.getConfig().getDouble("Lifesteal.chanceBonus");
-        chanceBase = plugin.getConfig().getDouble("Lifesteal.chanceBase") - chanceBonus;
-        cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("Lifesteal.cooldownBonus"));
-        cooldownBase = (long)(1000 * plugin.getConfig().getDouble("Lifesteal.cooldownBase")) + cooldownBonus;
-        healthBonus = plugin.getConfig().getInt("Lifesteal.healthBonus");
-        healthBase = plugin.getConfig().getInt("Lifesteal.healthBase") - healthBonus;
+        super(plugin, EnchantDefaults.LIFESTEAL, ItemSets.AXES.getItems());
     }
 
+    /**
+     * Gains health on hit
+     *
+     * @param user   player with the enchantment
+     * @param target enemy that was hit
+     * @param level  enchantment level
+     * @param event  event details
+     */
     @Override
-    public int getEnchantmentLevel(int expLevel) {
-        return expLevel * max / 50 + 1;
-    }
+    public void applyEffect(LivingEntity user, LivingEntity target, int level, EntityDamageByEntityEvent event) {
 
-    // Apply the enchantment effect
-    @Override
-    public void applyEffect(LivingEntity user, LivingEntity target, int enchantLevel, EntityDamageByEntityEvent event) {
-
+        // Get a name to use with the cooldown timers
         String name = user instanceof Player ? ((Player)user).getName() : "mob";
 
+        // Make sure the timer isn't null
         if (timers.get(name) == null) timers.put(name, 0l);
-        if (System.currentTimeMillis() - timers.get(name) < cooldownBase - cooldownBonus * enchantLevel) return;
-        if (Math.random() * 100 >= chanceBase + chanceBonus * enchantLevel) return;
+
+        // Check the cooldown
+        if (System.currentTimeMillis() - timers.get(name) < cooldown(level)) return;
+
+        // Check the probability
+        if (!roll(level)) return;
 
         // Gain health depending on enchantment level
-        int health = user.getHealth() + healthBase + healthBonus * enchantLevel;
+        int health = user.getHealth() + health(level);
         if (health > user.getMaxHealth()) health = user.getMaxHealth();
         user.setHealth(health);
+
+        // Update the cooldown timer
         timers.put(name, System.currentTimeMillis());
     }
 }

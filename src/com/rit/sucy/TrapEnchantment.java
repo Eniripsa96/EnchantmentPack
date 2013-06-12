@@ -7,26 +7,47 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.plugin.Plugin;
 
-import java.util.Hashtable;
+/**
+ * Places a trap at the user's feet that goes away by going too far away or right clicking again
+ */
+public abstract class TrapEnchantment extends ConfigurableEnchantment {
 
-public abstract class TrapEnchantment extends CustomEnchantment {
-
-    protected Hashtable<String, Long> timers;
-
+    /**
+     * Redstone layout
+     */
     protected boolean[][] layout;
+
+    /**
+     * Effect radius
+     */
     protected int radius;
 
-    public TrapEnchantment(String name, int radius) {
-        super (name, new String[] { "wood_shovel", "stone_shovel", "iron_shovel", "gold_shovel", "diamond_shovel" }, 1);
+    /**
+     * Constructor
+     *
+     * @param plugin  plugin reference
+     * @param enchant enchantment type
+     * @param radius  effect radius
+     */
+    public TrapEnchantment(Plugin plugin, EnchantDefaults enchant, int radius) {
+        super (plugin, enchant, ItemSets.SHOVELS.getItems(), 1);
         this.radius = radius;
-        timers = new Hashtable<String, Long>();
     }
 
+    /**
+     * Places the trap
+     *
+     * @param player       player with the enchantment
+     * @param enchantLevel enchantment level
+     * @param event        event details
+     */
     @Override
     public void applyMiscEffect(Player player, int enchantLevel, PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
 
+            // Remove a trap when right clicking a second time
             if (Trap.isTrapActive(player.getName(), this)) {
                 Trap trap = Trap.getTrap(player.getName(), this);
                 if (trap.contains(player.getLocation())){
@@ -37,16 +58,18 @@ public abstract class TrapEnchantment extends CustomEnchantment {
                 }
             }
 
+            // Check cool downs
             if (timers.get(player.getName()) == null) timers.put(player.getName(), 0l);
             if (System.currentTimeMillis() - timers.get(player.getName()) < cooldown(enchantLevel)) return;
             if (Trap.isTrapActive(player.getName(), this)) return;
 
+            // Check if the location is suitable
             Location location = player.getLocation();
             location.setX(location.getX() - layout.length / 2);
             location.setZ(location.getZ() - layout[layout.length / 2].length / 2);
-            for (int i = 0; i < layout.length; i++) {
-                for (int j = 0; j < layout[i].length; j++) {
-                    if (!layout[i][j]) {
+            for (boolean[] row : layout) {
+                for (boolean spot : row) {
+                    if (!spot) {
                         location.setZ(location.getZ() + 1);
                         continue;
                     }
@@ -61,48 +84,78 @@ public abstract class TrapEnchantment extends CustomEnchantment {
                     }
                     location.setZ(location.getZ() + 1);
                 }
-                location.setZ(location.getZ() - layout[i].length);
+                location.setZ(location.getZ() - row.length);
                 location.setX(location.getX() + 1);
             }
 
+            // Place the trap
             location.setX(player.getLocation().getX() - layout.length / 2);
-            for (int i = 0; i < layout.length; i++) {
-                for (int j = 0; j < layout[i].length; j++) {
-                    if (!layout[i][j]) {
+            for (boolean[] row : layout) {
+                for (boolean spot : row) {
+                    if (!spot) {
                         location.setZ(location.getZ() + 1);
                         continue;
                     }
                     player.getWorld().getBlockAt(location).setType(Material.REDSTONE_WIRE);
                     location.setZ(location.getZ() + 1);
                 }
-                location.setZ(location.getZ() - layout[i].length);
+                location.setZ(location.getZ() - row.length);
                 location.setX(location.getX() + 1);
             }
 
+            // Create the trap data
             Trap.createTrap(player, this, player.getLocation(), radius, enchantLevel);
+
+            // Update the cooldown timer
             timers.put(player.getName(), System.currentTimeMillis());
         }
     }
 
+    /**
+     * Removes the redstone of a trap from the world
+     *
+     * @param center center of the trap
+     */
     public void removeTrap(Location center) {
         center.setX(center.getX() - layout.length / 2);
         center.setZ(center.getZ() - layout[layout.length / 2].length / 2);
-        for (int i = 0; i < layout.length; i++) {
-            for (int j = 0; j < layout[i].length; j++) {
-                if (!layout[i][j]) {
+        for (boolean[] row : layout) {
+            for (boolean spot : row) {
+                if (!spot) {
                     center.setZ(center.getZ() + 1);
                     continue;
                 }
                 center.getWorld().getBlockAt(center).setType(Material.AIR);
                 center.setZ(center.getZ() + 1);
             }
-            center.setZ(center.getZ() - layout[i].length);
+            center.setZ(center.getZ() - row.length);
             center.setX(center.getX() + 1);
         }
     }
 
+    /**
+     * Applies effects when enemies enter the trap
+     *
+     * @param trap   trap that was entered
+     * @param entity enemy that entered the trap
+     * @param level  enchantment level
+     */
     public void onEnter(Trap trap, LivingEntity entity, int level) {}
+
+    /**
+     * Applies effects when enemies leave the trap
+     *
+     * @param trap   trap that was left
+     * @param entity enemy that left the trap
+     * @param level  enchantment level
+     */
     public void onLeave(Trap trap, LivingEntity entity, int level) {}
+
+    /**
+     * Applies effects continuously to enemies in the trap
+     *
+     * @param trap  trap to update
+     * @param level enchantment level
+     */
     public void onUpdate(Trap trap, int level) {}
-    protected  long cooldown(int level) { return 20000; }
 }

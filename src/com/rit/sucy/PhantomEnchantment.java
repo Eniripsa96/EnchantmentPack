@@ -4,23 +4,23 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 
 /**
- * Slows enemies on hit
+ * Grants invisibility when struck
  */
-public class SlowEnchantment extends PotionInflictEnchantment {
+public class PhantomEnchantment extends PotionAbsorbEnchantment {
 
     /**
      * Constructor
      *
      * @param plugin plugin reference
      */
-    public SlowEnchantment(Plugin plugin) {
-        super(plugin, EnchantDefaults.SLOWING, ItemSets.PICKAXES.getItems());
+    public PhantomEnchantment(Plugin plugin) {
+        super (plugin, EnchantDefaults.PHANTOM, ItemSets.BOOTS.getItems());
     }
 
     /**
      * @return type of potion applied by this enchantment
      */
     public PotionEffectType type() {
-        return PotionEffectType.SLOW;
+        return PotionEffectType.INVISIBILITY;
     }
 }

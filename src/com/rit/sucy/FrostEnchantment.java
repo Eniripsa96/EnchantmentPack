@@ -6,15 +6,15 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Slows enemies on hit
  */
-public class SlowEnchantment extends PotionInflictEnchantment {
+public class FrostEnchantment extends PotionReflectEnchantment {
 
     /**
      * Constructor
      *
      * @param plugin plugin reference
      */
-    public SlowEnchantment(Plugin plugin) {
-        super(plugin, EnchantDefaults.SLOWING, ItemSets.PICKAXES.getItems());
+    public FrostEnchantment(Plugin plugin) {
+        super(plugin, EnchantDefaults.FROST, ItemSets.LEGGINGS.getItems());
     }
 
     /**

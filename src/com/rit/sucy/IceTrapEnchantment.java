@@ -4,17 +4,17 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
+/**
+ * Places an ice trap on the ground that contains all enemies within it
+ */
 public class IceTrapEnchantment extends TrapEnchantment {
 
-    int max;
-    long cooldownBase;
-    long cooldownBonus;
-
+    /**
+     * Constructor
+     * @param plugin plugin reference
+     */
     public IceTrapEnchantment(Plugin plugin) {
-        super("Ice Trap", 4);
-        max = plugin.getConfig().getInt("IceTrap.max");
-        cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("IceTrap.cooldownBonus"));
-        cooldownBonus = (long)(1000 * plugin.getConfig().getDouble("IceTrap.cooldownBase")) + cooldownBonus;
+        super(plugin, EnchantDefaults.ICE_TRAP, 4);
         layout = new boolean[][] {
                 {  true,  true, false,  true,  true },
                 {  true, false, false, false,  true },
@@ -23,6 +23,13 @@ public class IceTrapEnchantment extends TrapEnchantment {
                 {  true,  true, false,  true,  true }};
     }
 
+    /**
+     * Moves enemies back towards the center when they leave
+     *
+     * @param trap   trap that had an enemy leave
+     * @param entity enemy that left the trap
+     * @param level  enchantment level used for the trap
+     */
     @Override
     public void onLeave(Trap trap, LivingEntity entity, int level) {
         if (entity != trap.owner) {
@@ -30,15 +37,5 @@ public class IceTrapEnchantment extends TrapEnchantment {
             direction = direction.multiply(1 / direction.length());
             entity.setVelocity(direction);
         }
-    }
-
-    @Override
-    public int getEnchantmentLevel(int expLevel) {
-        return expLevel * max / 50 + 1;
-    }
-
-    @Override
-    protected long cooldown(int level) {
-        return cooldownBase - cooldownBonus * level;
     }
 }

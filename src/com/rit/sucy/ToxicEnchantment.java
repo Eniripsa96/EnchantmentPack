@@ -4,23 +4,23 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 
 /**
- * Slows enemies on hit
+ * Poisons enemies when they hit you
  */
-public class SlowEnchantment extends PotionInflictEnchantment {
+public class ToxicEnchantment extends PotionReflectEnchantment {
 
     /**
      * Constructor
      *
      * @param plugin plugin reference
      */
-    public SlowEnchantment(Plugin plugin) {
-        super(plugin, EnchantDefaults.SLOWING, ItemSets.PICKAXES.getItems());
+    public ToxicEnchantment(Plugin plugin) {
+        super(plugin, EnchantDefaults.TOXIC, ItemSets.CHESTPLATES.getItems());
     }
 
     /**
      * @return type of potion applied by this enchantment
      */
     public PotionEffectType type() {
-        return PotionEffectType.SLOW;
+        return PotionEffectType.POISON;
     }
 }

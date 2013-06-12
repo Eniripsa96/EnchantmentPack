@@ -4,32 +4,32 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.Plugin;
 
-public class ReflectEnchantment extends CustomEnchantment {
+/**
+ * Reflects damage back at attackers
+ */
+public class ReflectEnchantment extends ConfigurableEnchantment {
 
-    int max;
-    double chanceBase;
-    double chanceBonus;
-    double percentBase;
-    double percentBonus;
-
+    /**
+     * Constructor
+     *
+     * @param plugin plugin reference
+     */
     public ReflectEnchantment(Plugin plugin) {
-        super("Reflection", new String[] { "leather_chestplate", "chainmail_chestplate", "iron_chestplate", "gold_chestplate", "diamond_chestplate"});
-        max = plugin.getConfig().getInt("Reflection.max");
-        chanceBonus = plugin.getConfig().getDouble("Reflection.chanceBonus");
-        chanceBase = plugin.getConfig().getDouble("Reflection.chanceBase") - chanceBonus;
-        percentBonus = plugin.getConfig().getDouble("Reflection.percentBonus");
-        percentBase = plugin.getConfig().getDouble("Reflection.percentBase") - percentBonus;
+        super(plugin, EnchantDefaults.REFLECTION, ItemSets.CHESTPLATES.getItems());
     }
 
+    /**
+     * Reflects damage when hit
+     *
+     * @param user   player with the enchantment
+     * @param target enemy that hit the player
+     * @param level  enchantment level
+     * @param event  event details
+     */
     @Override
-    public int getEnchantmentLevel(int expLevel) {
-        return expLevel * max / 50 + 1;
-    }
-
-    @Override
-    public void applyDefenseEffect(LivingEntity user, LivingEntity target, int enchantLevel,
+    public void applyDefenseEffect(LivingEntity user, LivingEntity target, int level,
             EntityDamageEvent event) {
-        if (Math.random() * 100 < chanceBase + chanceBonus * enchantLevel && target != null)
-                target.damage((int)(event.getDamage() * (percentBase + percentBonus * enchantLevel) / 100), user);
+        if (roll(level) && target != null)
+                target.damage((int)(event.getDamage() * percent(level)), user);
     }
 }
