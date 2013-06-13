@@ -32,8 +32,8 @@ public class PullEnchantment extends ConfigurableEnchantment {
     @Override
     public void applyEntityEffect(Player player, int level, PlayerInteractEntityEvent event) {
 
-        // Make sure the target is living
-        if (!(event.getRightClicked() instanceof LivingEntity)) return;
+        // Make sure it is a valid target
+        if (!works(event.getRightClicked())) return;
 
         // Make sure the cooldown timer isn't null
         if (timers.get(player.getName()) == null) timers.put(player.getName(), 0l);

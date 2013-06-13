@@ -1,5 +1,10 @@
 package com.rit.sucy;
 
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Hashtable;
@@ -52,6 +57,8 @@ public class ConfigurableEnchantment extends CustomEnchantment {
         // Therefore, we can load values straight from the config
         for (String attribute : enchant.getValues().keySet())
             attributes.put(attribute, plugin.getConfig().get(enchant.getPath() + attribute));
+        attributes.put(ConfigValues.PVP.getKey(), plugin.getConfig().get(enchant.getPath() + ConfigValues.PVP.getKey()));
+        attributes.put(ConfigValues.PVE.getKey(), plugin.getConfig().get(enchant.getPath() + ConfigValues.PVE.getKey()));
     }
 
     /**
@@ -80,13 +87,23 @@ public class ConfigurableEnchantment extends CustomEnchantment {
     }
 
     /**
-     * Gets a ouble value from the enchantment attributes
+     * Gets a double value from the enchantment attributes
      *
      * @param key attribute key
      * @return    double value of the attribute
      */
     double getDouble(String key) {
         return Double.parseDouble(attributes.get(key).toString());
+    }
+
+    /**
+     * Gets a boolean value from the enchantment attributes
+     *
+     * @param key attribute key
+     * @return    boolean value of the attribute
+     */
+    boolean getBoolean(String key) {
+        return Boolean.parseBoolean(attributes.get(key).toString());
     }
 
     /**
@@ -190,6 +207,15 @@ public class ConfigurableEnchantment extends CustomEnchantment {
     }
 
     /**
+     * Calculates the lifespan of the enchantment
+     * @param level enchantment level
+     * @return      lifespan of the enchantment
+     */
+    int lifespan(int level) {
+        return (int)(10 * (getDouble(ConfigValues.LIFE_BASE.getKey()) + getDouble(ConfigValues.LIFE_BONUS.getKey()) * level));
+    }
+
+    /**
      * Calculates the power of an explosion for an enchantment
      *
      * @param level enchantment level
@@ -197,5 +223,26 @@ public class ConfigurableEnchantment extends CustomEnchantment {
      */
     float power(int level) {
         return (float)(getDouble(ConfigValues.PWR_BASE.getKey()) + getDouble(ConfigValues.PWR_BONUS.getKey()) * level);
+    }
+
+    /**
+     * Checks if the entity can be affected by this enchantment
+     *
+     * @param entity target entity
+     * @return       true if can be used, false otherwise
+     */
+    boolean works(Entity entity) {
+        if (entity == null) return false;
+        else if (!(entity instanceof LivingEntity)) return false;
+        else if (entity instanceof Player) {
+            if (!getBoolean(ConfigValues.PVP.getKey())) return false;
+            EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(entity, entity, EntityDamageEvent.DamageCause.ENTITY_ATTACK, 1);
+            plugin.getServer().getPluginManager().callEvent(event);
+            if (event.isCancelled() || event.getDamage() == 0) {
+                return false;
+            }
+        }
+        else if (!getBoolean(ConfigValues.PVE.getKey())) return false;
+        return true;
     }
 }

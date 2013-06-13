@@ -1,7 +1,7 @@
 package com.rit.sucy;
 
+import java.util.Arrays;
 import java.util.Hashtable;
-import java.util.Map;
 
 /**
  * Default data for enchantments
@@ -14,13 +14,13 @@ public enum EnchantDefaults {
         put(ConfigValues.MAX.getKey(), 5);
         put(ConfigValues.CHANCE_BASE.getKey(), 100);
         put(ConfigValues.CHANCE_BONUS.getKey(), 0);
-        put(ConfigValues.TIER_BASE.getKey(), 2);
+        put(ConfigValues.TIER_BASE.getKey(), 1);
         put(ConfigValues.TIER_BONUS.getKey(), 0);
         put(ConfigValues.DUR_BASE.getKey(), 1);
         put(ConfigValues.DUR_BONUS.getKey(), 0.5);
     }}),
 
-    BRILLIANCE ("Brilliance", new Hashtable<String, Object>(){{
+    BLIND ("Blind", new Hashtable<String, Object>(){{
         put(ConfigValues.MAX.getKey(), 5);
         put(ConfigValues.CHANCE_BASE.getKey(), 100);
         put(ConfigValues.CHANCE_BONUS.getKey(), 0);
@@ -30,7 +30,7 @@ public enum EnchantDefaults {
         put(ConfigValues.DUR_BONUS.getKey(), 0.5);
     }}),
 
-    BLIND ("Blind", new Hashtable<String, Object>(){{
+    BRILLIANCE ("Brilliance", new Hashtable<String, Object>(){{
         put(ConfigValues.MAX.getKey(), 5);
         put(ConfigValues.CHANCE_BASE.getKey(), 100);
         put(ConfigValues.CHANCE_BONUS.getKey(), 0);
@@ -64,7 +64,7 @@ public enum EnchantDefaults {
         put(ConfigValues.MAX.getKey(), 5);
         put(ConfigValues.CHANCE_BASE.getKey(), 100);
         put(ConfigValues.CHANCE_BONUS.getKey(), 0);
-        put(ConfigValues.TIER_BASE.getKey(), 2);
+        put(ConfigValues.TIER_BASE.getKey(), 1);
         put(ConfigValues.TIER_BONUS.getKey(), 0);
         put(ConfigValues.DUR_BASE.getKey(), 1);
         put(ConfigValues.DUR_BONUS.getKey(), 0.5);
@@ -81,11 +81,13 @@ public enum EnchantDefaults {
     }}),
 
     FIRE_TRAP ("Fire Trap", new Hashtable<String, Object>(){{
-        put(ConfigValues.MAX.getKey(), 1);
+        put(ConfigValues.MAX.getKey(), 5);
         put(ConfigValues.CD_BASE.getKey(), 20);
         put(ConfigValues.CD_BONUS.getKey(), 0);
-        put(ConfigValues.PWR_BASE.getKey(), 4);
-        put(ConfigValues.PWR_BONUS.getKey(), 0);
+        put(ConfigValues.PWR_BASE.getKey(), 2);
+        put(ConfigValues.PWR_BONUS.getKey(), 0.5);
+        put(ConfigValues.LIFE_BASE.getKey(), -1);
+        put(ConfigValues.LIFE_BONUS.getKey(), 0);
     }}),
 
     FROST ("Frost", new Hashtable<String, Object>(){{
@@ -98,10 +100,22 @@ public enum EnchantDefaults {
         put(ConfigValues.DUR_BONUS.getKey(), 0.5);
     }}),
 
+    GRAVITY ("Gravity", new Hashtable<String, Object>(){{
+        put(ConfigValues.MAX.getKey(), 6);
+        put(ConfigValues.CHANCE_BASE.getKey(), 100);
+        put(ConfigValues.CHANCE_BONUS.getKey(), 0);
+        put(ConfigValues.RANGE_BASE.getKey(), 5);
+        put(ConfigValues.RANGE_BONUS.getKey(), 1);
+        put(ConfigValues.DMG_BASE.getKey(), 1);
+        put(ConfigValues.DMG_BONUS.getKey(), 0);
+    }}),
+
     ICE_TRAP ("Ice Trap", new Hashtable<String, Object>(){{
-        put(ConfigValues.MAX.getKey(), 1);
+        put(ConfigValues.MAX.getKey(), 5);
         put(ConfigValues.CD_BASE.getKey(), 20);
         put(ConfigValues.CD_BONUS.getKey(), 0);
+        put(ConfigValues.LIFE_BASE.getKey(), 5);
+        put(ConfigValues.LIFE_BONUS.getKey(), 1);
     }}),
 
     JUMP ("Jump", new Hashtable<String, Object>(){{
@@ -181,13 +195,15 @@ public enum EnchantDefaults {
     }}),
 
     POISON_TRAP ("Poison Trap", new Hashtable<String, Object>(){{
-        put(ConfigValues.MAX.getKey(), 1);
+        put(ConfigValues.MAX.getKey(), 5);
         put(ConfigValues.CD_BASE.getKey(), 20);
         put(ConfigValues.CD_BONUS.getKey(), 0);
         put(ConfigValues.DUR_BASE.getKey(), 7);
         put(ConfigValues.DUR_BONUS.getKey(), 0);
         put(ConfigValues.TIER_BASE.getKey(), 2);
         put(ConfigValues.TIER_BONUS.getKey(), 0);
+        put(ConfigValues.LIFE_BASE.getKey(), 5);
+        put(ConfigValues.LIFE_BONUS.getKey(), 1);
     }}),
 
     PULL ("Pull", new Hashtable<String, Object>(){{
@@ -274,7 +290,7 @@ public enum EnchantDefaults {
         put(ConfigValues.MAX.getKey(), 5);
         put(ConfigValues.CHANCE_BASE.getKey(), 100);
         put(ConfigValues.CHANCE_BONUS.getKey(), 0);
-        put(ConfigValues.TIER_BASE.getKey(), 2);
+        put(ConfigValues.TIER_BASE.getKey(), 1);
         put(ConfigValues.TIER_BONUS.getKey(), 0);
         put(ConfigValues.DUR_BASE.getKey(), 1);
         put(ConfigValues.DUR_BONUS.getKey(), 0.5);
@@ -311,8 +327,12 @@ public enum EnchantDefaults {
         this.values = values;
 
         // Make sure the config has at least the default values
-        for (Map.Entry<String, Object> entry : values.entrySet()) {
-            EnchantmentPack.put(getPath() + entry.getKey(), entry.getValue());
+        EnchantmentPack.put(getPath() + ConfigValues.PVP.getKey(), true);
+        EnchantmentPack.put(getPath() + ConfigValues.PVE.getKey(), true);
+        String[] names = values.keySet().toArray(new String[values.size()]);
+        Arrays.sort(names);
+        for (String key : names) {
+            EnchantmentPack.put(getPath() + key, values.get(key));
         }
     }
 

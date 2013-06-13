@@ -30,7 +30,7 @@ public class FervorEnchantment extends ConfigurableEnchantment {
      */
     @Override
     public void applyEffect(LivingEntity user, LivingEntity target, int level, EntityDamageByEntityEvent event) {
-        if (roll(level))
+        if (roll(level) && works(target))
             user.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, duration(level), tier(level)), true);
     }
 }

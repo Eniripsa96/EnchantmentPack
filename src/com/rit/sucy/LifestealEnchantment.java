@@ -32,6 +32,9 @@ public class LifestealEnchantment extends ConfigurableEnchantment {
     @Override
     public void applyEffect(LivingEntity user, LivingEntity target, int level, EntityDamageByEntityEvent event) {
 
+        // Check for a valid target
+        if (!works(target)) return;
+
         // Get a name to use with the cooldown timers
         String name = user instanceof Player ? ((Player)user).getName() : "mob";
 

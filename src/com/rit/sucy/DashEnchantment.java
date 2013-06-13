@@ -50,7 +50,7 @@ public class DashEnchantment extends ConfigurableEnchantment {
             player.setVelocity(vector);
 
             // Apply damage while moving
-            DashTask task = new DashTask(plugin, player, damage(level), 3);
+            DashTask task = new DashTask(plugin, this, player, damage(level), 3);
             task.runTask(plugin);
 
             // Update cooldown timer

@@ -14,7 +14,7 @@ public class IceTrapEnchantment extends TrapEnchantment {
      * @param plugin plugin reference
      */
     public IceTrapEnchantment(Plugin plugin) {
-        super(plugin, EnchantDefaults.ICE_TRAP, 4);
+        super(plugin, EnchantDefaults.ICE_TRAP, 3);
         layout = new boolean[][] {
                 {  true,  true, false,  true,  true },
                 {  true, false, false, false,  true },
@@ -32,7 +32,7 @@ public class IceTrapEnchantment extends TrapEnchantment {
      */
     @Override
     public void onLeave(Trap trap, LivingEntity entity, int level) {
-        if (entity != trap.owner) {
+        if (entity != trap.owner && works(entity)) {
             Vector direction = trap.center.toVector().subtract(entity.getLocation().toVector());
             direction = direction.multiply(1 / direction.length());
             entity.setVelocity(direction);

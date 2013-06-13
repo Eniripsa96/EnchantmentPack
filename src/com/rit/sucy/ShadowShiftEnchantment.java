@@ -34,8 +34,8 @@ public class ShadowShiftEnchantment extends ConfigurableEnchantment {
     @Override
     public void applyDefenseEffect(LivingEntity user, LivingEntity target, int level, EntityDamageEvent event) {
 
-        // Make sure the damage didn't come from a random source
-        if (target == null) return;
+        // Make sure its a valid target
+        if (!works(target)) return;
 
         // Manage cooldowns
         if (user instanceof Player) {

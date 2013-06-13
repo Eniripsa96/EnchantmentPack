@@ -11,6 +11,16 @@ public enum ConfigValues {
     MAX ("max"),
 
     /**
+     * If it effects players
+     */
+    PVP ("pvp"),
+
+    /**
+     * If it effects mobs
+     */
+    PVE ("pve"),
+
+    /**
      * Enchantment cooldown at level 1
      */
     CD_BASE ("cooldownBase"),
@@ -118,7 +128,17 @@ public enum ConfigValues {
     /**
      * Additional effect percentage per enchantment level
      */
-    PCT_BONUS ("percentBonus");
+    PCT_BONUS ("percentBonus"),
+
+    /**
+     * Lifespan of the enchantment at level 1
+     */
+    LIFE_BASE ("lifespanBase"),
+
+    /**
+     * Additional lifespan of the enchantment per enchant level
+     */
+    LIFE_BONUS ("lifespanBonus");
 
     /**
      * Attribute key

@@ -46,7 +46,7 @@ public class RepulseEnchantment extends ConfigurableEnchantment {
             // Pull in nearby enemies
             int range = range(level);
             for (Entity entity : player.getNearbyEntities(range, range, range)) {
-                if (!(entity instanceof LivingEntity)) continue;
+                if (!works(entity)) continue;
                 Vector velocity = entity.getLocation().subtract(player.getLocation()).toVector();
                 velocity.setY(velocity.getY() / 3);
                 entity.setVelocity(velocity.multiply(speed(level) / (1 + velocity.lengthSquared())));

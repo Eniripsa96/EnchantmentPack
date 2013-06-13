@@ -46,7 +46,7 @@ public class VortexEnchantment extends ConfigurableEnchantment {
             // Drag all nearby enemies closer
             int range = range(level);
             for (Entity entity : player.getNearbyEntities(range, range, range)) {
-                if (!(entity instanceof LivingEntity)) continue;
+                if (!works(entity)) continue;
                 Vector velocity = player.getLocation().subtract(entity.getLocation()).toVector();
                 velocity.setY(velocity.getY() / 2);
                 entity.setVelocity(velocity.multiply(speed(level)));

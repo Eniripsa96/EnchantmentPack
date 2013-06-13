@@ -28,7 +28,7 @@ public class LightningEnchantment extends ConfigurableEnchantment {
      */
     @Override
     public void applyEffect(LivingEntity user, LivingEntity target, int level, EntityDamageByEntityEvent event) {
-        if (roll(level))
+        if (roll(level) && works(target))
             target.getWorld().strikeLightning(target.getLocation());
     }
 }

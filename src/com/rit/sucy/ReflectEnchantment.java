@@ -27,9 +27,8 @@ public class ReflectEnchantment extends ConfigurableEnchantment {
      * @param event  event details
      */
     @Override
-    public void applyDefenseEffect(LivingEntity user, LivingEntity target, int level,
-            EntityDamageEvent event) {
-        if (roll(level) && target != null)
+    public void applyDefenseEffect(LivingEntity user, LivingEntity target, int level, EntityDamageEvent event) {
+        if (roll(level) && works(target))
                 target.damage((int)(event.getDamage() * percent(level)), user);
     }
 }

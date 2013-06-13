@@ -36,8 +36,8 @@ public class PoisonTrapEnchantment extends TrapEnchantment {
     @Override
     public void onUpdate(Trap trap, int level) {
         for (LivingEntity entity : trap.inRange) {
-            if (entity != trap.owner) {
-                entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, duration(level), tier(level)), true);
+            if (entity != trap.owner && works(entity)) {
+                entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, duration(level), tier(level)), false);
             }
         }
     }

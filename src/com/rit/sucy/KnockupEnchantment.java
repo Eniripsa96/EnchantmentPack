@@ -28,7 +28,7 @@ public class KnockupEnchantment extends ConfigurableEnchantment {
      */
     @Override
     public void applyEffect(LivingEntity user, LivingEntity target, int level, EntityDamageByEntityEvent event) {
-        if (roll(level))
+        if (roll(level) && works(target))
             // Need to knock them up later to get past Minecraft's knockback on taking damage
             new KnockupTask(target, (float)speed(level)).runTaskLater(plugin, 1);
     }

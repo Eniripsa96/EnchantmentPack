@@ -29,14 +29,14 @@ public class TossEnchantment extends ConfigurableEnchantment {
      * Picks up an enemy
      *
      * @param player player with the enchantment
-     * @param level enchantment level
-     * @param event event details
+     * @param level  enchantment level
+     * @param event  event details
      */
     @Override
     public void applyEntityEffect(Player player, int level, PlayerInteractEntityEvent event) {
 
-        // Make sure the target is living
-        if(event.getRightClicked() instanceof LivingEntity){
+        // Make sure its a valid target
+        if(works(event.getRightClicked())){
             LivingEntity enemy = (LivingEntity)event.getRightClicked();
             long cooldown = cooldown(level);
 
@@ -73,7 +73,7 @@ public class TossEnchantment extends ConfigurableEnchantment {
         Player p = event.getPlayer();
 
         // Make sure the player has grabbed an enemy
-        if(p.getPassenger() !=null && p.getPassenger() instanceof LivingEntity){
+        if(p.getPassenger() != null && p.getPassenger() instanceof LivingEntity){
             LivingEntity enemy = (LivingEntity)p.getPassenger();
 
             // Make sure it was a left click

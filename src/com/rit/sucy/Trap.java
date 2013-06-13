@@ -54,6 +54,11 @@ public class Trap {
     int level;
 
     /**
+     * Duration the trap is active for
+     */
+    int lifespan;
+
+    /**
      * Checks if the player has a trap of the given type already placed
      *
      * @param player      player to check
@@ -105,6 +110,7 @@ public class Trap {
         this.center = center;
         this.radius = radius;
         this.level = level;
+        this.lifespan = enchantment.lifespan(level);
     }
 
     /**
@@ -152,6 +158,8 @@ public class Trap {
         if (owner == null) remove();
         else if (!owner.isOnline()) remove();
         else if (owner.getLocation().distanceSquared(center) > MAX_DISTANCE * MAX_DISTANCE) remove();
+        lifespan--;
+        if (lifespan == 0) remove();
     }
 
     /**

@@ -35,7 +35,7 @@ public class FireTrapEnchantment extends TrapEnchantment {
      */
     @Override
     public void onEnter(Trap trap, LivingEntity entity, int level) {
-        if (entity != trap.owner) {
+        if (entity != trap.owner && works(entity)) {
             Location loc = entity.getLocation();
             entity.getWorld().createExplosion(loc.getX(), loc.getY(), loc.getZ(), power(level), true, false);
             trap.remove();

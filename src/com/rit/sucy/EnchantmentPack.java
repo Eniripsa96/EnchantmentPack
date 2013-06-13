@@ -112,6 +112,7 @@ public class EnchantmentPack extends EnchantPlugin implements CommandExecutor {
         EnchantmentAPI.registerCustomEnchantment(new FervorEnchantment(this));
         EnchantmentAPI.registerCustomEnchantment(new FireTrapEnchantment(this));
         EnchantmentAPI.registerCustomEnchantment(new FrostEnchantment(this));
+        EnchantmentAPI.registerCustomEnchantment(new GravityEnchantment(this));
         EnchantmentAPI.registerCustomEnchantment(new IceTrapEnchantment(this));
         EnchantmentAPI.registerCustomEnchantment(jump);
         EnchantmentAPI.registerCustomEnchantment(new KnockupEnchantment(this));

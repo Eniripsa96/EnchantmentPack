@@ -31,8 +31,7 @@ public abstract class PotionAbsorbEnchantment extends ConfigurableEnchantment im
      */
     @Override
     public void applyDefenseEffect(LivingEntity user, LivingEntity target, int level, EntityDamageEvent event) {
-        if (target == null) return;
-        if (roll(level))
+        if (roll(level) && works(target))
             user.addPotionEffect(new PotionEffect(type(), duration(level), tier(level)), true);
     }
 }

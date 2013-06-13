@@ -22,6 +22,11 @@ public class DashTask extends BukkitRunnable {
     Player player;
 
     /**
+     * Enchantment reference
+     */
+    DashEnchantment enchant;
+
+    /**
      * Damage to deal per run
      */
     int damage;
@@ -39,9 +44,10 @@ public class DashTask extends BukkitRunnable {
      * @param damage    damage to deal
      * @param remaining remaining runs
      */
-    public DashTask(Plugin plugin, Player player, int damage, int remaining) {
+    public DashTask(Plugin plugin, DashEnchantment enchant, Player player, int damage, int remaining) {
         this.plugin = plugin;
         this.player = player;
+        this.enchant = enchant;
         this.damage = damage;
         this.remaining = remaining;
     }
@@ -51,8 +57,8 @@ public class DashTask extends BukkitRunnable {
      */
     public void run() {
         for (Entity entity : player.getNearbyEntities(1, 1, 1)) {
-            if (entity instanceof LivingEntity) ((LivingEntity) entity).damage(damage, player);
+            if (enchant.works(entity)) ((LivingEntity) entity).damage(damage, player);
         }
-        if (remaining > 0) new DashTask(plugin, player, damage, remaining - 1).runTaskLater(plugin, 4);
+        if (remaining > 0) new DashTask(plugin, enchant, player, damage, remaining - 1).runTaskLater(plugin, 4);
     }
 }

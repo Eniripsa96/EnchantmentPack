@@ -28,8 +28,7 @@ public class MoltenEnchantment extends ConfigurableEnchantment {
      */
     @Override
     public void applyDefenseEffect(LivingEntity user, LivingEntity target, int level, EntityDamageEvent event) {
-        if (target == null) return;
-        if (roll(level))
+        if (roll(level) && works(target))
             target.setFireTicks(duration(level));
     }
 }

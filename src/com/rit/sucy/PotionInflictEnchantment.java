@@ -31,7 +31,7 @@ public abstract class PotionInflictEnchantment extends ConfigurableEnchantment i
      */
     @Override
     public void applyEffect(LivingEntity user, LivingEntity target, int level, EntityDamageByEntityEvent event) {
-        if (roll(level))
+        if (roll(level) && works(target))
             target.addPotionEffect(new PotionEffect(type(), duration(level), tier(level)), true);
     }
 }
