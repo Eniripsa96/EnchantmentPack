@@ -1,4 +1,0 @@
-name: EnchantmentPack
-main: com.rit.sucy.EnchantmentPack
-version: 2.3
-depend: [EnchantmentAPI]

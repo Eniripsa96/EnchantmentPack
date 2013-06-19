@@ -1,0 +1,4 @@
+name: EnchantPassivePack
+main: com.sucy.passive.EnchantPassivePack
+version: 1.0
+depend: [EnchantmentAPI]

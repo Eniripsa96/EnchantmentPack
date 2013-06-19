@@ -1,0 +1,4 @@
+name: EnchantTrapPack
+main: com.sucy.trap.EnchantTrapPack
+version: 1.0
+depend: [EnchantmentAPI]

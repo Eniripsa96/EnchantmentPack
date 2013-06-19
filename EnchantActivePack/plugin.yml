@@ -1,0 +1,4 @@
+name: EnchantActivePack
+main: com.sucy.active.EnchantActivePack
+version: 1.0
+depend: [EnchantmentAPI]
