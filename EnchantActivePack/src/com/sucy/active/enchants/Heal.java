@@ -1,5 +1,6 @@
 package com.sucy.active.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.active.ConfigurableEnchantment;
 import com.sucy.active.data.EnchantDefaults;
 import org.bukkit.ChatColor;
@@ -16,6 +17,7 @@ public class Heal extends ConfigurableEnchantment {
     public Heal(Plugin plugin) {
         super(plugin, EnchantDefaults.HEAL, new Material[] { Material.BLAZE_ROD }, 2);
         description = "Heals yourself or a target ally";
+        suffixGroups.add(SuffixGroups.HEALTH.getKey());
     }
 
     @Override

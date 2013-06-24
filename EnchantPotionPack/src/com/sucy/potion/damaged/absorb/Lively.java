@@ -1,5 +1,6 @@
 package com.sucy.potion.damaged.absorb;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.potion.data.EnchantDefaults;
 import com.sucy.potion.data.ItemSets;
 import org.bukkit.plugin.Plugin;
@@ -18,6 +19,7 @@ public class Lively extends PotionAbsorb {
     public Lively(Plugin plugin) {
         super(plugin, EnchantDefaults.LIVELY, ItemSets.BOOTS.getItems());
         description = "Grants bonus speed when hit";
+        suffixGroups.add(SuffixGroups.SPEED.getKey());
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.sucy.potion.damaged.reflect;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.potion.ConfigurableEnchantment;
 import com.sucy.potion.data.ConflictGroup;
 import com.sucy.potion.data.EnchantDefaults;
@@ -21,6 +22,7 @@ public class Molten extends ConfigurableEnchantment {
     public Molten(Plugin plugin) {
         super(plugin, EnchantDefaults.MOLTEN, ItemSets.CHESTPLATES.getItems(), 2, ConflictGroup.POD);
         description = "Burns enemies when hit";
+        suffixGroups.add(SuffixGroups.FIRE.getKey());
     }
 
     /**

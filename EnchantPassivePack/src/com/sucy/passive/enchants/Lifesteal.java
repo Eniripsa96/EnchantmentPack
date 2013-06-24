@@ -1,5 +1,6 @@
 package com.sucy.passive.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.passive.ConfigurableEnchantment;
 import com.sucy.passive.data.EnchantDefaults;
 import com.sucy.passive.data.ItemSets;
@@ -21,6 +22,7 @@ public class Lifesteal extends ConfigurableEnchantment {
     public Lifesteal(Plugin plugin) {
         super(plugin, EnchantDefaults.LIFESTEAL, ItemSets.HOES.getItems());
         description = "Gain health on attack";
+        suffixGroups.add(SuffixGroups.LIFESTEAL.getKey());
     }
 
     /**

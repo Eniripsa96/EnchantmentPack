@@ -1,5 +1,6 @@
 package com.sucy.potion.hit.inflict;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.potion.data.EnchantDefaults;
 import com.sucy.potion.data.ItemSets;
 import org.bukkit.plugin.Plugin;
@@ -18,6 +19,7 @@ public class Weakness extends PotionInflict {
     public Weakness(Plugin plugin) {
         super(plugin, EnchantDefaults.WEAKNESS, ItemSets.AXES.getItems());
         description = "Lowers enemies' damage on hit";
+        suffixGroups.add(SuffixGroups.WEAKNESS.getKey());
     }
 
     /**

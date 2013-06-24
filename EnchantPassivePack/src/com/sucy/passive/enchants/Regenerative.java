@@ -2,6 +2,7 @@ package com.sucy.passive.enchants;
 
 import com.rit.sucy.CustomEnchantment;
 import com.rit.sucy.EnchantmentAPI;
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.passive.ConfigurableEnchantment;
 import com.sucy.passive.data.EnchantDefaults;
 import com.sucy.passive.data.ItemSets;
@@ -19,6 +20,7 @@ public class Regenerative extends ConfigurableEnchantment {
     public Regenerative(Plugin plugin) {
         super(plugin, EnchantDefaults.REGENERATIVE, ItemSets.CHESTPLATES.getItems());
         description = "Restores health slowly over time";
+        suffixGroups.add(SuffixGroups.HEALTH.getKey());
     }
 
     @Override

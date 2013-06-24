@@ -1,5 +1,6 @@
 package com.sucy.passive.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.passive.ConfigurableEnchantment;
 import com.sucy.passive.data.EnchantDefaults;
 import com.sucy.passive.data.ItemSets;
@@ -25,6 +26,8 @@ public class ShadowShift extends ConfigurableEnchantment {
     public ShadowShift(Plugin plugin) {
         super(plugin, EnchantDefaults.SHADOW_SHIFT, ItemSets.LEGGINGS.getItems(), 1);
         description = "Chance to blind enemies and teleport when hit";
+        suffixGroups.add(SuffixGroups.INVISIBILITY.getKey());
+        suffixGroups.add(SuffixGroups.BLIND.getKey());
     }
 
     /**

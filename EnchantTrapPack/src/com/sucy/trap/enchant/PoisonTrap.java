@@ -1,5 +1,6 @@
 package com.sucy.trap.enchant;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.trap.data.EnchantDefaults;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.Plugin;
@@ -19,6 +20,7 @@ public class PoisonTrap extends PotionTrap {
     public PoisonTrap(Plugin plugin) {
         super(plugin, EnchantDefaults.POISON_TRAP, 4, PotionEffectType.POISON);
         description = "Places a trap that poisons enemies";
+        suffixGroups.add(SuffixGroups.POISON.getKey());
         layout = new boolean[][] {
                 { false, false, false,  true },
                 { false, false,  true,  true,  true },

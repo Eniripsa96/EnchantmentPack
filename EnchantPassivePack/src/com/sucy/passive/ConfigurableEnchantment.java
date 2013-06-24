@@ -5,6 +5,7 @@ import com.rit.sucy.enchanting.EListener;
 import com.sucy.passive.data.ConfigValues;
 import com.sucy.passive.data.ConflictGroup;
 import com.sucy.passive.data.EnchantDefaults;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -90,21 +91,10 @@ public class ConfigurableEnchantment extends CustomEnchantment {
             attributes.put(attribute, plugin.getConfig().get(enchant.getPath() + attribute));
         attributes.put(ConfigValues.PVP.getKey(), plugin.getConfig().get(enchant.getPath() + ConfigValues.PVP.getKey()));
         attributes.put(ConfigValues.PVE.getKey(), plugin.getConfig().get(enchant.getPath() + ConfigValues.PVE.getKey()));
-    }
 
-    /**
-     * Calculates an enchantment level based on the experience level a player used
-     *
-     * @param expLevel experience cost used by a player
-     * @return         enchantment level
-     */
-    @Override
-    public int getEnchantmentLevel(int expLevel) {
-
-        // Max value is 49 so this is a somewhat accurate way of applying the max value
-        // Max levels of at least 50 end up not actually being able to reach the maximum
-        // This method is still close and simple enough where it is worth the small error
-        return expLevel * getInt(ConfigValues.MAX.getKey()) / 50 + 1;
+        max = getInt(ConfigValues.MAX.getKey());
+        base = 1;
+        interval = 45.0 / max;
     }
 
     /**
@@ -144,7 +134,30 @@ public class ConfigurableEnchantment extends CustomEnchantment {
      * @return      cooldown in milliseconds
      */
     public long cooldown(int level) {
-        return (long)(1000 * (getDouble(ConfigValues.CD_BASE.getKey()) + getDouble(ConfigValues.CD_BONUS.getKey()) * level));
+        return (long)(1000 * (getDouble(ConfigValues.CD_BASE.getKey()) - getDouble(ConfigValues.CD_BONUS.getKey()) * (level - 1)));
+    }
+
+    /**
+     * Checks if the enchantment is on cooldown
+     *
+     * @param level      enchantment level
+     * @param playerName name of user
+     * @return           true if on cooldown
+     */
+    public boolean cooldown(int level, String playerName) {
+        if (!timers.containsKey(playerName)) {
+            timers.put(playerName, 0l);
+        }
+
+        if (System.currentTimeMillis() - timers.get(playerName) < cooldown(level)) {
+            plugin.getServer().getPlayer(playerName).sendMessage(ChatColor.GOLD + name()
+                    + ChatColor.DARK_RED + " cooldown - "
+                    + ChatColor.GOLD + ((cooldown(level) - System.currentTimeMillis() + timers.get(playerName)) / 1000 + 1)
+                    + ChatColor.DARK_RED + " seconds left");
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -154,7 +167,7 @@ public class ConfigurableEnchantment extends CustomEnchantment {
      * @return      true if effect should take place, false otherwise
      */
     public boolean roll(int level) {
-        return Math.random() * 100 < getDouble(ConfigValues.CHANCE_BASE.getKey())+ getDouble(ConfigValues.CHANCE_BONUS.getKey()) * level;
+        return Math.random() * 100 < getDouble(ConfigValues.CHANCE_BASE.getKey())+ getDouble(ConfigValues.CHANCE_BONUS.getKey()) * (level - 1);
     }
 
     /**
@@ -164,7 +177,7 @@ public class ConfigurableEnchantment extends CustomEnchantment {
      * @return      enchantment range
      */
     public int range(int level) {
-        return getInt(ConfigValues.RANGE_BASE.getKey()) + getInt(ConfigValues.RANGE_BONUS.getKey()) * level;
+        return getInt(ConfigValues.RANGE_BASE.getKey()) + getInt(ConfigValues.RANGE_BONUS.getKey()) * (level - 1);
     }
 
     /**
@@ -174,7 +187,7 @@ public class ConfigurableEnchantment extends CustomEnchantment {
      * @return      enchantment effect radius
      */
     public int radius(int level) {
-        return getInt(ConfigValues.RAD_BASE.getKey()) + getInt(ConfigValues.RAD_BONUS.getKey()) * level;
+        return getInt(ConfigValues.RAD_BASE.getKey()) + getInt(ConfigValues.RAD_BONUS.getKey()) * (level - 1);
     }
 
     /**
@@ -184,7 +197,7 @@ public class ConfigurableEnchantment extends CustomEnchantment {
      * @return      enchantment damage
      */
     public int damage(int level) {
-        return getInt(ConfigValues.DMG_BASE.getKey()) + getInt(ConfigValues.DMG_BONUS.getKey()) * level;
+        return getInt(ConfigValues.DMG_BASE.getKey()) + getInt(ConfigValues.DMG_BONUS.getKey()) * (level - 1);
     }
 
     /**
@@ -194,7 +207,7 @@ public class ConfigurableEnchantment extends CustomEnchantment {
      * @return      enchantment launch speed
      */
     public double speed(int level) {
-        return getDouble(ConfigValues.SPD_BASE.getKey()) + getDouble(ConfigValues.SPD_BONUS.getKey()) * level;
+        return getDouble(ConfigValues.SPD_BASE.getKey()) + getDouble(ConfigValues.SPD_BONUS.getKey()) * (level - 1);
     }
 
     /**
@@ -204,7 +217,7 @@ public class ConfigurableEnchantment extends CustomEnchantment {
      * @return      enchantment effect percentage
      */
     public double percent(int level) {
-        return (getDouble(ConfigValues.PCT_BASE.getKey()) + getDouble(ConfigValues.PCT_BONUS.getKey()) * level) / 100;
+        return (getDouble(ConfigValues.PCT_BASE.getKey()) + getDouble(ConfigValues.PCT_BONUS.getKey()) * (level - 1)) / 100;
     }
 
     /**
@@ -214,7 +227,7 @@ public class ConfigurableEnchantment extends CustomEnchantment {
      * @return      health quantity
      */
     public int health(int level) {
-        return getInt(ConfigValues.HP_BASE.getKey()) + getInt(ConfigValues.HP_BONUS.getKey()) * level;
+        return getInt(ConfigValues.HP_BASE.getKey()) + getInt(ConfigValues.HP_BONUS.getKey()) * (level - 1);
     }
 
     /**
@@ -224,7 +237,7 @@ public class ConfigurableEnchantment extends CustomEnchantment {
      * @return      enchantment potion effect tier
      */
     public int tier(int level) {
-        return getInt(ConfigValues.TIER_BASE.getKey()) + getInt(ConfigValues.TIER_BONUS.getKey()) * level - 1;
+        return getInt(ConfigValues.TIER_BASE.getKey()) + getInt(ConfigValues.TIER_BONUS.getKey()) * (level - 1) - 1;
     }
 
     /**
@@ -234,7 +247,7 @@ public class ConfigurableEnchantment extends CustomEnchantment {
      * @return      enchantment potion effect duration
      */
     public int duration(int level) {
-        return (int)(20 * (getDouble(ConfigValues.DUR_BASE.getKey()) + getDouble(ConfigValues.DUR_BONUS.getKey()) * level));
+        return (int)(20 * (getDouble(ConfigValues.DUR_BASE.getKey()) + getDouble(ConfigValues.DUR_BONUS.getKey()) * (level - 1)));
     }
 
     /**
@@ -243,7 +256,7 @@ public class ConfigurableEnchantment extends CustomEnchantment {
      * @return      lifespan of the enchantment
      */
     public int lifespan(int level) {
-        return (int)(10 * (getDouble(ConfigValues.LIFE_BASE.getKey()) + getDouble(ConfigValues.LIFE_BONUS.getKey()) * level));
+        return (int)(10 * (getDouble(ConfigValues.LIFE_BASE.getKey()) + getDouble(ConfigValues.LIFE_BONUS.getKey()) * (level - 1)));
     }
 
     /**
@@ -253,7 +266,7 @@ public class ConfigurableEnchantment extends CustomEnchantment {
      * @return      enchantment explosion power
      */
     public float power(int level) {
-        return (float)(getDouble(ConfigValues.PWR_BASE.getKey()) + getDouble(ConfigValues.PWR_BONUS.getKey()) * level);
+        return (float)(getDouble(ConfigValues.PWR_BASE.getKey()) + getDouble(ConfigValues.PWR_BONUS.getKey()) * (level - 1));
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.sucy.active.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.active.ConfigurableEnchantment;
 import com.sucy.active.data.ConflictGroup;
 import com.sucy.active.data.EnchantDefaults;
@@ -17,6 +18,9 @@ import java.util.Hashtable;
 
 /**
  * Picks up and then throws an enemy
+ *
+ * Original Author: CeramicTitan
+ * Modified by: Eniripsa96
  */
 public class Toss extends ConfigurableEnchantment {
 
@@ -30,6 +34,7 @@ public class Toss extends ConfigurableEnchantment {
     public Toss(Plugin plugin) {
         super(plugin, EnchantDefaults.TOSS, new Material[] { Material.DIAMOND_SWORD }, ConflictGroup.FORCE);
         description = "Picks up and throws enemies";
+        suffixGroups.add(SuffixGroups.FORCE.getKey());
     }
 
     /**
@@ -50,6 +55,7 @@ public class Toss extends ConfigurableEnchantment {
             if (cooldown(level, player.getName()))
                 return;
 
+            // Cancel any already running tasks
             if (tasks.containsKey(player.getName())) {
                 TossTask task = tasks.get(player.getName());
                 task.run();
@@ -64,6 +70,7 @@ public class Toss extends ConfigurableEnchantment {
             // Update the cooldown timer
             timers.put(player.getName(), System.currentTimeMillis());
 
+            // Run the release task
             TossTask task = new TossTask(player);
             task.runTaskLater(plugin, duration(level));
             tasks.put(player.getName(), task);
@@ -96,13 +103,15 @@ public class Toss extends ConfigurableEnchantment {
                 vector.multiply(speed(level) / vector.length());
                 vector.setY(vector.getY() / 2);
                 enemy.setVelocity(vector);
+                if (enemy instanceof Player)
+                    ((Player)enemy).sendMessage(ChatColor.GREEN+p.getDisplayName()+ChatColor.GRAY+" just threw you with " + ChatColor.LIGHT_PURPLE + "Toss " + level+ChatColor.GRAY + ".");
+
+                // Cancel the release task
                 if (tasks.containsKey(player.getName())) {
                     TossTask task = tasks.get(player.getName());
                     task.cancelled = true;
                     tasks.remove(player.getName());
                 }
-                if (enemy instanceof Player)
-                    ((Player)enemy).sendMessage(ChatColor.GREEN+p.getDisplayName()+ChatColor.GRAY+" just threw you with " + ChatColor.LIGHT_PURPLE + "Toss " + level+ChatColor.GRAY + ".");
             }
         }
     }

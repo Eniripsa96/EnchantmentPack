@@ -1,5 +1,6 @@
 package com.sucy.potion.hit.inflict;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.potion.data.EnchantDefaults;
 import com.sucy.potion.data.ItemSets;
 import org.bukkit.plugin.Plugin;
@@ -18,6 +19,7 @@ public class Wither extends PotionInflict {
     public Wither(Plugin plugin) {
         super(plugin, EnchantDefaults.WITHER, ItemSets.HOES.getItems());
         description = "Applies wither on hit";
+        suffixGroups.add(SuffixGroups.WITHER.getKey());
     }
 
     /**

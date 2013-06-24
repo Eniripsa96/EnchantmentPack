@@ -1,5 +1,6 @@
 package com.sucy.passive.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.passive.ConfigurableEnchantment;
 import com.sucy.passive.data.ConflictGroup;
 import com.sucy.passive.data.EnchantDefaults;
@@ -20,6 +21,8 @@ public class Forceful extends ConfigurableEnchantment {
     public Forceful(Plugin plugin) {
         super(plugin, EnchantDefaults.FORCEFUL, ItemSets.AXES.getItems(), 1, ConflictGroup.FORCE);
         description = "Damages and knocks away enemies on attack";
+        suffixGroups.add(SuffixGroups.FORCE.getKey());
+        suffixGroups.add(SuffixGroups.STRENGTH.getKey());
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.sucy.trap.enchant;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.trap.data.EnchantDefaults;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -18,6 +19,8 @@ public class FireTrap extends RedstoneTrap {
     public FireTrap(Plugin plugin) {
         super(plugin, EnchantDefaults.FIRE_TRAP, 4);
         description = "Places a trap that creates fire when triggered";
+        suffixGroups.add(SuffixGroups.FIRE.getKey());
+        suffixGroups.add(SuffixGroups.EXPLOSIONS.getKey());
         layout = new boolean[][] {
                 { false, false,  true,  true,  true },
                 { false, false, false,  true },

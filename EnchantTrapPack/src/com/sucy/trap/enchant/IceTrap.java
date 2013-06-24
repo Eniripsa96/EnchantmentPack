@@ -1,5 +1,6 @@
 package com.sucy.trap.enchant;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.trap.data.EnchantDefaults;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.Plugin;

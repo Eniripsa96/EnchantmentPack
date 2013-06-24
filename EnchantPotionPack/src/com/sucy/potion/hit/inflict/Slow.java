@@ -1,5 +1,6 @@
 package com.sucy.potion.hit.inflict;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.potion.data.EnchantDefaults;
 import com.sucy.potion.data.ItemSets;
 import org.bukkit.plugin.Plugin;
@@ -18,6 +19,7 @@ public class Slow extends PotionInflict {
     public Slow(Plugin plugin) {
         super(plugin, EnchantDefaults.SLOWING, ItemSets.PICKAXES.getItems());
         description = "Slows enemies on hit";
+        suffixGroups.add(SuffixGroups.SLOWING.getKey());
     }
 
     /**

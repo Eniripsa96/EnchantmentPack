@@ -1,5 +1,6 @@
 package com.sucy.potion.damaged.absorb;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.potion.data.EnchantDefaults;
 import com.sucy.potion.data.ItemSets;
 import org.bukkit.plugin.Plugin;
@@ -18,6 +19,7 @@ public class Adrenaline extends PotionAbsorb {
     public Adrenaline(Plugin plugin) {
         super(plugin, EnchantDefaults.ADRENALINE, ItemSets.LEGGINGS.getItems());
         description = "Grants extra damage when hit";
+        suffixGroups.add(SuffixGroups.STRENGTH.getKey());
     }
 
     /**

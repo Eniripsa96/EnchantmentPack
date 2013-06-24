@@ -1,5 +1,6 @@
 package com.sucy.passive.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.passive.ConfigurableEnchantment;
 import com.sucy.passive.data.EnchantDefaults;
 import org.bukkit.Material;
@@ -12,6 +13,7 @@ public class Rapid extends ConfigurableEnchantment {
     public Rapid(Plugin plugin) {
         super(plugin, EnchantDefaults.RAPID, new Material[] { Material.BOW }, 10);
         description = "Fire faster projectiles";
+        suffixGroups.add(SuffixGroups.PROJECTILE.getKey());
     }
 
     @Override

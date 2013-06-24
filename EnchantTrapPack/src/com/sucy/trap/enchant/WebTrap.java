@@ -1,5 +1,6 @@
 package com.sucy.trap.enchant;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.trap.data.EnchantDefaults;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,6 +20,7 @@ public class WebTrap extends RedstoneTrap {
     public WebTrap(Plugin plugin) {
         super(plugin, EnchantDefaults.WEB_TRAP, 3);
         description = "Places a trap that spawns temporary webs";
+        suffixGroups.add(SuffixGroups.SLOWING.getKey());
         layout = new boolean[][] {
                 { false, false,  true,  true },
                 { false, false,  true, false,  true },

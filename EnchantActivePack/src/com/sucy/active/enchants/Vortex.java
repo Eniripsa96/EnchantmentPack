@@ -1,5 +1,6 @@
 package com.sucy.active.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.active.ConfigurableEnchantment;
 import com.sucy.active.data.ConflictGroup;
 import com.sucy.active.data.EnchantDefaults;
@@ -24,6 +25,7 @@ public class Vortex extends ConfigurableEnchantment {
     public Vortex(Plugin plugin) {
         super(plugin, EnchantDefaults.VORTEX, ItemSets.PICKAXES.getItems(), 1, ConflictGroup.FORCE);
         description = "Pulls in all nearby enemies";
+        suffixGroups.add(SuffixGroups.FORCE.getKey());
     }
 
     /**

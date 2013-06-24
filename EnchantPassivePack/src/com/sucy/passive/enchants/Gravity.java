@@ -1,5 +1,6 @@
 package com.sucy.passive.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.passive.ConfigurableEnchantment;
 import com.sucy.passive.data.ConflictGroup;
 import com.sucy.passive.data.EnchantDefaults;
@@ -22,6 +23,7 @@ public class Gravity extends ConfigurableEnchantment {
     public Gravity(Plugin plugin) {
         super(plugin, EnchantDefaults.GRAVITY, ItemSets.HOES.getItems(), 1, ConflictGroup.FORCE);
         description = "Damages and pulls in enemies on attack";
+        suffixGroups.add(SuffixGroups.FORCE.getKey());
     }
 
     /**

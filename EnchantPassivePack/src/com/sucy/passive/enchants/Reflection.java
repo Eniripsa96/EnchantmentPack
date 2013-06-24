@@ -1,5 +1,6 @@
 package com.sucy.passive.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.passive.ConfigurableEnchantment;
 import com.sucy.passive.data.ConflictGroup;
 import com.sucy.passive.data.EnchantDefaults;
@@ -21,6 +22,7 @@ public class Reflection extends ConfigurableEnchantment {
     public Reflection(Plugin plugin) {
         super(plugin, EnchantDefaults.REFLECTION, ItemSets.CHESTPLATES.getItems(), ConflictGroup.POD);
         description = "Reflects damage back at attackers";
+        suffixGroups.add(SuffixGroups.STRENGTH.getKey());
     }
 
     /**

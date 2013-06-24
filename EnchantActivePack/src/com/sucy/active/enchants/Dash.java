@@ -1,5 +1,6 @@
 package com.sucy.active.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.active.ConfigurableEnchantment;
 import com.sucy.active.data.ConflictGroup;
 import com.sucy.active.data.EnchantDefaults;
@@ -23,6 +24,8 @@ public class Dash extends ConfigurableEnchantment {
     public Dash(Plugin plugin) {
         super(plugin, EnchantDefaults.DASH, ItemSets.SWORDS.getItems(), 2, ConflictGroup.FORCE);
         description = "Dash forward dealing damage to all enemies";
+        suffixGroups.add(SuffixGroups.SPEED.getKey());
+        suffixGroups.add(SuffixGroups.FORCE.getKey());
     }
 
     /**

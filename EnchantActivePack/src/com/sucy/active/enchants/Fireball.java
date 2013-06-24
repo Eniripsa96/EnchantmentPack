@@ -1,5 +1,6 @@
 package com.sucy.active.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.active.ConfigurableEnchantment;
 import com.sucy.active.data.EnchantDefaults;
 import org.bukkit.Material;
@@ -14,6 +15,7 @@ public class Fireball extends ConfigurableEnchantment {
     public Fireball(Plugin plugin) {
         super(plugin, EnchantDefaults.FIREBALL, new Material[] {Material.BLAZE_ROD }, 10);
         description = "Launches a fireball";
+        suffixGroups.add(SuffixGroups.FIRE.getKey());
     }
 
     @Override
@@ -21,6 +23,7 @@ public class Fireball extends ConfigurableEnchantment {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
             if (cooldown(level, player.getName())) return;
             player.launchProjectile(SmallFireball.class);
+            timers.put(player.getName(), System.currentTimeMillis());
         }
     }
 }

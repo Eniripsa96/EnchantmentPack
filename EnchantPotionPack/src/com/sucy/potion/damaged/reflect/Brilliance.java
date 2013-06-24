@@ -1,5 +1,6 @@
 package com.sucy.potion.damaged.reflect;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.potion.data.EnchantDefaults;
 import com.sucy.potion.data.ItemSets;
 import org.bukkit.plugin.Plugin;
@@ -18,6 +19,7 @@ public class Brilliance extends PotionReflect {
     public Brilliance(Plugin plugin) {
         super(plugin, EnchantDefaults.BRILLIANCE, ItemSets.HELMETS.getItems());
         description = "Blinds foes when hit";
+        suffixGroups.add(SuffixGroups.BLIND.getKey());
     }
 
     /**

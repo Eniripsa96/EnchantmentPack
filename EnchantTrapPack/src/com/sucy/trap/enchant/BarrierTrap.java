@@ -1,5 +1,6 @@
 package com.sucy.trap.enchant;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.trap.data.EnchantDefaults;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.Plugin;
@@ -14,6 +15,7 @@ public class BarrierTrap extends RedstoneTrap {
     public BarrierTrap(Plugin plugin) {
         super(plugin, EnchantDefaults.BARRIER_TRAP, 3);
         description = "Places a trap that pushes enemies away";
+        suffixGroups.add(SuffixGroups.FORCE.getKey());
         layout = new boolean[][] {
                 {  true,  true, false,  true,  true },
                 {  true, false, false, false,  true },

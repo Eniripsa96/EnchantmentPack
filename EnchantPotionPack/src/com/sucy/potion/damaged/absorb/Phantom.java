@@ -1,5 +1,6 @@
 package com.sucy.potion.damaged.absorb;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.potion.data.EnchantDefaults;
 import com.sucy.potion.data.ItemSets;
 import org.bukkit.plugin.Plugin;
@@ -18,6 +19,7 @@ public class Phantom extends PotionAbsorb {
     public Phantom(Plugin plugin) {
         super (plugin, EnchantDefaults.PHANTOM, ItemSets.BOOTS.getItems());
         description = "Grants temporary invisibility when hit";
+        suffixGroups.add(SuffixGroups.INVISIBILITY.getKey());
     }
 
     /**

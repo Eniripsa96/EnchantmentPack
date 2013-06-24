@@ -1,5 +1,6 @@
 package com.sucy.potion.damaged.reflect;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.potion.data.EnchantDefaults;
 import com.sucy.potion.data.ItemSets;
 import org.bukkit.plugin.Plugin;
@@ -18,6 +19,7 @@ public class Demoralizing extends PotionReflect {
     public Demoralizing(Plugin plugin) {
         super(plugin, EnchantDefaults.DEMORALIZING, ItemSets.CHESTPLATES.getItems());
         description = "Lowers damage of enemies when hit";
+        suffixGroups.add(SuffixGroups.WEAKNESS.getKey());
     }
 
     /**

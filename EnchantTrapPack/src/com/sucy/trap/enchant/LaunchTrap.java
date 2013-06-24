@@ -1,5 +1,6 @@
 package com.sucy.trap.enchant;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.trap.data.EnchantDefaults;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -16,6 +17,7 @@ public class LaunchTrap extends RedstoneTrap {
     public LaunchTrap(Plugin plugin) {
         super(plugin, EnchantDefaults.LAUNCH_TRAP, 3);
         description = "Places a trap that launches an enemy up";
+        suffixGroups.add(SuffixGroups.FORCE.getKey());
         layout = new boolean[][] {
                 {  true,  true,  true,  true,  true },
                 {  true, false, false, false,  true },

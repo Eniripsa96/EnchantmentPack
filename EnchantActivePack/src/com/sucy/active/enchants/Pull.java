@@ -1,5 +1,6 @@
 package com.sucy.active.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.active.ConfigurableEnchantment;
 import com.sucy.active.data.ConflictGroup;
 import com.sucy.active.data.EnchantDefaults;
@@ -22,6 +23,7 @@ public class Pull extends ConfigurableEnchantment {
     public Pull(Plugin plugin) {
         super(plugin, EnchantDefaults.PULL, ItemSets.PICKAXES.getItems(), 3, ConflictGroup.FORCE);
         description = "Pulls the target enemy closer";
+        suffixGroups.add(SuffixGroups.FORCE.getKey());
     }
 
     /**

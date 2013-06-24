@@ -1,5 +1,6 @@
 package com.sucy.active.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.active.ConfigurableEnchantment;
 import com.sucy.active.data.EnchantDefaults;
 import org.bukkit.Material;
@@ -13,6 +14,8 @@ public class Grapple extends ConfigurableEnchantment {
     public Grapple(Plugin plugin) {
         super(plugin, EnchantDefaults.GRAPPLE, new Material[] { Material.FISHING_ROD });
         description = "Pulls you towards your hook when reeling in";
+        suffixGroups.add(SuffixGroups.FORCE.getKey());
+        suffixGroups.add(SuffixGroups.FISHING.getKey());
     }
 
     public void apply(Player player, Fish hook, int level) {

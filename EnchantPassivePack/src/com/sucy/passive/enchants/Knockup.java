@@ -1,5 +1,6 @@
 package com.sucy.passive.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.passive.ConfigurableEnchantment;
 import com.sucy.passive.data.ConflictGroup;
 import com.sucy.passive.data.EnchantDefaults;
@@ -21,6 +22,7 @@ public class Knockup extends ConfigurableEnchantment {
     public Knockup(Plugin plugin) {
         super(plugin, EnchantDefaults.KNOCKUP, ItemSets.SWORDS.getItems(), 10, ConflictGroup.FORCE);
         description = "Has a chance to knock the target into the air";
+        suffixGroups.add(SuffixGroups.FORCE.getKey());
     }
 
     /**

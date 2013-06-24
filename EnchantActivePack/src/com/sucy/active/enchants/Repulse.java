@@ -1,5 +1,6 @@
 package com.sucy.active.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.active.ConfigurableEnchantment;
 import com.sucy.active.data.ConflictGroup;
 import com.sucy.active.data.EnchantDefaults;
@@ -24,6 +25,7 @@ public class Repulse extends ConfigurableEnchantment {
     public Repulse(Plugin plugin) {
         super(plugin, EnchantDefaults.REPULSE, ItemSets.SWORDS.getItems(), 1, ConflictGroup.FORCE);
         description = "Pushes all enemies away";
+        suffixGroups.add(SuffixGroups.FORCE.getKey());
     }
 
     /**

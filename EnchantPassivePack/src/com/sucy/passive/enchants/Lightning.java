@@ -1,5 +1,6 @@
 package com.sucy.passive.enchants;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.passive.ConfigurableEnchantment;
 import com.sucy.passive.data.EnchantDefaults;
 import com.sucy.passive.data.ItemSets;
@@ -20,6 +21,7 @@ public class Lightning extends ConfigurableEnchantment {
     public Lightning(Plugin plugin) {
         super(plugin, EnchantDefaults.LIGHTNING, ItemSets.AXES.getItems());
         description = "Chance to strike lightning on hit";
+        suffixGroups.add(SuffixGroups.LIGHTNING.getKey());
     }
 
     /**

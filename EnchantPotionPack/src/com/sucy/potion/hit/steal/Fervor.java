@@ -1,5 +1,6 @@
 package com.sucy.potion.hit.steal;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.potion.data.EnchantDefaults;
 import com.sucy.potion.data.ItemSets;
 import org.bukkit.plugin.Plugin;
@@ -18,6 +19,7 @@ public class Fervor extends PotionSteal {
     public Fervor(Plugin plugin) {
         super(plugin, EnchantDefaults.FERVOR, ItemSets.SWORDS.getItems());
         description = "Grants bonus speed on hit";
+        suffixGroups.add(SuffixGroups.SPEED.getKey());
     }
 
     /**

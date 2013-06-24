@@ -1,5 +1,6 @@
 package com.sucy.trap.enchant;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.trap.data.EnchantDefaults;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -15,6 +16,7 @@ public class LightningTrap extends RedstoneTrap {
     public LightningTrap(Plugin plugin) {
         super(plugin, EnchantDefaults.LIGHTNING_TRAP, 3);
         description = "Places a trap that strikes lightning";
+        suffixGroups.add(SuffixGroups.LIGHTNING.getKey());
         layout = new boolean[][] {
                 { false,  true, false,  true },
                 {  true,  true, false,  true,  true },

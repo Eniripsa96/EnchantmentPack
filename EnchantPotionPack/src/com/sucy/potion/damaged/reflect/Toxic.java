@@ -1,5 +1,6 @@
 package com.sucy.potion.damaged.reflect;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.potion.data.EnchantDefaults;
 import com.sucy.potion.data.ItemSets;
 import org.bukkit.plugin.Plugin;
@@ -18,6 +19,7 @@ public class Toxic extends PotionReflect {
     public Toxic(Plugin plugin) {
         super(plugin, EnchantDefaults.TOXIC, ItemSets.CHESTPLATES.getItems());
         description = "Poisons enemies when hit";
+        suffixGroups.add(SuffixGroups.POISON.getKey());
     }
 
     /**

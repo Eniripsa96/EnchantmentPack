@@ -1,5 +1,6 @@
 package com.sucy.trap.enchant;
 
+import com.rit.sucy.service.SuffixGroups;
 import com.sucy.trap.data.EnchantDefaults;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -15,6 +16,7 @@ public class BombTrap extends RedstoneTrap {
     public BombTrap(Plugin plugin) {
         super(plugin, EnchantDefaults.BOMB_TRAP, 4);
         description = "Places a trap that explodes when triggered";
+        suffixGroups.add(SuffixGroups.EXPLOSIONS.getKey());
         layout = new boolean[][] {
                 { false, false,  true, false,  true },
                 { false,  true, false, false, false,  true },
