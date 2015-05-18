@@ -25,10 +25,10 @@ public class Heal extends ConfigurableEnchantment {
         if (event.getRightClicked() instanceof Player && !works(event.getRightClicked(), player)) {
             if (event.getRightClicked() instanceof LivingEntity) {
                 if (cooldown(level, player.getName())) return;
-                int health = ((LivingEntity) event.getRightClicked()).getHealth() + health(level);
+                double health = ((LivingEntity) event.getRightClicked()).getHealth() + health(level);
                 if (health > ((LivingEntity) event.getRightClicked()).getMaxHealth())
                     health = ((LivingEntity) event.getRightClicked()).getMaxHealth();
-                int bonus = health - ((LivingEntity) event.getRightClicked()).getHealth();
+                double bonus = health - ((LivingEntity) event.getRightClicked()).getHealth();
                 ((LivingEntity) event.getRightClicked()).setHealth(health);
                 if (bonus > 0) {
                     timers.put(player.getName(), System.currentTimeMillis());
@@ -40,10 +40,10 @@ public class Heal extends ConfigurableEnchantment {
         }
 
         if (cooldown(level, player.getName())) return;
-        int health = player.getHealth() + health(level);
+        double health = player.getHealth() + health(level);
         if (health > player.getMaxHealth())
             health = player.getMaxHealth();
-        int bonus = health - player.getHealth();
+        double bonus = health - player.getHealth();
         player.setHealth(health);
         if (bonus > 0) {
             timers.put(player.getName(), System.currentTimeMillis());
@@ -55,10 +55,10 @@ public class Heal extends ConfigurableEnchantment {
     public void applyMiscEffect(Player player, int level, PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
             if (cooldown(level, player.getName())) return;
-            int health = player.getHealth() + health(level);
+            double health = player.getHealth() + health(level);
             if (health > player.getMaxHealth())
                 health = player.getMaxHealth();
-            int bonus = health - player.getHealth();
+            double bonus = health - player.getHealth();
             player.setHealth(health);
             if (bonus > 0) {
                 timers.put(player.getName(), System.currentTimeMillis());

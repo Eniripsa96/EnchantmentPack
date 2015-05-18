@@ -18,7 +18,7 @@ public class Life extends ConfigurableEnchantment {
     @Override
     public void applyEquipEffect(Player player, int level) {
         player.setMaxHealth(20 + health(level));
-        int health = player.getHealth() + health(level);
+        double health = player.getHealth() + health(level);
         if (health > player.getMaxHealth()) health = player.getMaxHealth();
         player.setHealth(health);
     }

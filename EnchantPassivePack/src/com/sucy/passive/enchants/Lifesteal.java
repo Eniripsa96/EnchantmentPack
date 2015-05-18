@@ -52,7 +52,7 @@ public class Lifesteal extends ConfigurableEnchantment {
         if (!roll(level)) return;
 
         // Gain health depending on enchantment level
-        int health = user.getHealth() + health(level);
+        double health = user.getHealth() + health(level);
         if (health > user.getMaxHealth()) health = user.getMaxHealth();
         user.setHealth(health);
 

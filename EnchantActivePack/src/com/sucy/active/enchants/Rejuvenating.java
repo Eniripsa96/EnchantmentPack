@@ -16,7 +16,7 @@ public class Rejuvenating extends ConfigurableEnchantment {
     }
 
     public void apply(Player player, int level) {
-        int health = player.getHealth() + health(level);
+        double health = player.getHealth() + health(level);
         if (health > player.getMaxHealth())
             health = player.getMaxHealth();
         player.setHealth(health);

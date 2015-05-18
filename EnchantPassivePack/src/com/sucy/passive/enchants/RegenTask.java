@@ -15,7 +15,7 @@ public class RegenTask extends BukkitRunnable {
         if (!player.isOnline())
             return;
 
-        int health = player.getHealth() + 1;
+        double health = player.getHealth() + 1;
         if (health > player.getMaxHealth())
             return;
         player.setMaxHealth(health);
