@@ -35,6 +35,7 @@ public class PotionRunnable extends BukkitRunnable {
     public PotionRunnable(Player player, PotionEffectType type, int level) {
         this.player = player;
         this.type = type;
+        this.level = level;
     }
 
     /**
