@@ -2,6 +2,7 @@ package com.sucy.passive;
 
 import com.rit.sucy.EnchantPlugin;
 import com.rit.sucy.EnchantmentAPI;
+import com.rit.sucy.Version;
 import com.sucy.passive.enchants.*;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
@@ -27,7 +28,7 @@ public class EnchantPassivePack extends EnchantPlugin implements CommandExecutor
 
     @Override
     public void onEnable() {
-        for (Player player : getServer().getOnlinePlayers()) {
+        for (Player player : Version.getOnlinePlayers()) {
             regen.initializePlayer(player);
         }
     }

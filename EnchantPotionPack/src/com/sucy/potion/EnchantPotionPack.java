@@ -2,6 +2,7 @@ package com.sucy.potion;
 
 import com.rit.sucy.EnchantPlugin;
 import com.rit.sucy.EnchantmentAPI;
+import com.rit.sucy.Version;
 import com.sucy.potion.damaged.absorb.Adrenaline;
 import com.sucy.potion.damaged.absorb.Lively;
 import com.sucy.potion.damaged.absorb.Phantom;
@@ -10,6 +11,7 @@ import com.sucy.potion.hit.steal.Berserking;
 import com.sucy.potion.hit.steal.Distortion;
 import com.sucy.potion.hit.steal.Fervor;
 import com.sucy.potion.hit.inflict.*;
+import com.sucy.potion.passive.Gears;
 import com.sucy.potion.passive.Jump;
 import com.sucy.potion.passive.NightVision;
 import org.bukkit.command.CommandExecutor;
@@ -30,6 +32,8 @@ public class EnchantPotionPack extends EnchantPlugin implements CommandExecutor 
      * Jump enchantment reference for updating player data
      */
     Jump jump;
+
+    Gears gears;
 
     /**
      * Night vision enchantment reference for updating player data
@@ -53,9 +57,10 @@ public class EnchantPotionPack extends EnchantPlugin implements CommandExecutor 
         new EPPListener(this);
 
         // Apply equip effects for the passive enchantments
-        for (Player player : getServer().getOnlinePlayers()) {
+        for (Player player : Version.getOnlinePlayers()) {
             night.initializePlayer(player);
             jump.initializePlayer(player);
+            gears.initializePlayer(player);
         }
     }
 
@@ -68,6 +73,7 @@ public class EnchantPotionPack extends EnchantPlugin implements CommandExecutor 
         // Clear effects and data for passive enchantments
         night.clearPlayers();
         jump.clearPlayers();
+        gears.clearPlayers();
 
         // Remove listeners
         HandlerList.unregisterAll(this);
@@ -93,6 +99,7 @@ public class EnchantPotionPack extends EnchantPlugin implements CommandExecutor 
     public void registerEnchantments() {
         night = new NightVision(this);
         jump = new Jump(this);
+        gears = new Gears(this);
 
         EnchantmentAPI.registerCustomEnchantments(
                 new Adrenaline(this),
@@ -112,7 +119,7 @@ public class EnchantPotionPack extends EnchantPlugin implements CommandExecutor 
                 new Toxic(this),
                 new Weakness(this),
                 new Wither(this),
-                jump, night
+                jump, night, gears
         );
 
         // Update the config (because EnchantDefaults will have put any missing data)

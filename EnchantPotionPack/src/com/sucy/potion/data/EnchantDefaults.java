@@ -102,6 +102,12 @@ public enum EnchantDefaults {
         put(ConfigValues.DUR_BONUS.getKey(), 0.5);
     }}),
 
+    GEARS ("Gears", new Hashtable<String, Object>(){{
+        put(ConfigValues.MAX.getKey(), 2);
+        put(ConfigValues.TIER_BASE.getKey(), 1);
+        put(ConfigValues.TIER_BONUS.getKey(), 1);
+    }}),
+
     JUMP ("Jump", new Hashtable<String, Object>(){{
         put(ConfigValues.MAX.getKey(), 2);
         put(ConfigValues.TIER_BASE.getKey(), 1);

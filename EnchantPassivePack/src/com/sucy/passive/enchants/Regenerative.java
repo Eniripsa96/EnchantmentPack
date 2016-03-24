@@ -25,8 +25,7 @@ public class Regenerative extends ConfigurableEnchantment {
 
     @Override
     public void applyEquipEffect(Player player, int level) {
-        if (tasks.contains(player.getName()))
-            tasks.get(player.getName()).cancel();
+        applyUnequipEffect(player, level);
 
         RegenTask task = new RegenTask(player);
         task.runTaskTimer(plugin, (int)(cooldown(level) / 50), (int)(cooldown(level) / 50));
@@ -42,16 +41,17 @@ public class Regenerative extends ConfigurableEnchantment {
         }
     }
 
+    @Override
     public void applyUnequipEffect(Player player, int level) {
         if (tasks.contains(player.getName())) {
-            tasks.get(player.getName()).cancel();
+            tasks.get(player.getName()).stop();
             tasks.remove(player.getName());
         }
     }
 
     public void clearTasks() {
         for (RegenTask task : tasks.values())
-            task.cancel();
+            task.stop();
         tasks.clear();
     }
 }

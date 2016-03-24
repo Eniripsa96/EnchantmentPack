@@ -14,6 +14,8 @@ import org.bukkit.plugin.Plugin;
  */
 public class Reflection extends ConfigurableEnchantment {
 
+    private static boolean applying = false;
+
     /**
      * Constructor
      *
@@ -35,7 +37,11 @@ public class Reflection extends ConfigurableEnchantment {
      */
     @Override
     public void applyDefenseEffect(LivingEntity user, LivingEntity target, int level, EntityDamageEvent event) {
-        if (roll(level) && works(target, user))
-                target.damage((int)(event.getDamage() * percent(level)), user);
+        if (!applying && roll(level) && works(target, user))
+        {
+            applying = true;
+            target.damage((int) (event.getDamage() * percent(level)), user);
+            applying = false;
+        }
     }
 }
