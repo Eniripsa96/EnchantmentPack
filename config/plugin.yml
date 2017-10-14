@@ -1,0 +1,4 @@
+name: EnchantmentPack
+main: com.sucy.enchant.EnchantmentPack
+version: 1.0.0
+depend: [EnchantmentAPI]

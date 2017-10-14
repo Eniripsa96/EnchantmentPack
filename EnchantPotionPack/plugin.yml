@@ -1,4 +1,0 @@
-name: EnchantPotionPack
-main: com.sucy.potion.EnchantPotionPack
-version: 1.0
-depend: [EnchantmentAPI]
