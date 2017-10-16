@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.UUID;
@@ -31,6 +32,7 @@ public class Toss extends CustomEnchantment {
     private static final String DURATION = "duration";
 
     private Hashtable<UUID, BukkitTask> tasks = new Hashtable<>();
+    private HashMap<UUID, Long> times = new HashMap<>();
 
     public Toss() {
         super("Toss", "Picks up and throws a target");
@@ -55,7 +57,6 @@ public class Toss extends CustomEnchantment {
      */
     @Override
     public void applyInteractEntity(final Player player, final int level, final PlayerInteractEntityEvent event) {
-
         if (Cooldowns.onCooldown(this, player, settings, level)) return;
 
         final LivingEntity target = (LivingEntity)event.getRightClicked();
@@ -69,6 +70,7 @@ public class Toss extends CustomEnchantment {
 
         // Run the release task
         tasks.put(player.getUniqueId(), Tasks.schedule(player::eject, (int)(settings.get(DURATION, level) * 20)));
+        times.put(player.getUniqueId(), System.currentTimeMillis() + 200);
     }
 
     /**
@@ -82,7 +84,7 @@ public class Toss extends CustomEnchantment {
     public void applyInteractBlock(final Player player, final int level, final PlayerInteractEvent event){
 
         // Make sure the player has grabbed an enemy
-        if (tasks.contains(player.getUniqueId())) {
+        if (tasks.containsKey(player.getUniqueId()) && times.get(player.getUniqueId()) < System.currentTimeMillis()) {
 
             final double speed = settings.get(SPEED, level);
             final List<Entity> passengers = player.getPassengers();
@@ -98,5 +100,11 @@ public class Toss extends CustomEnchantment {
             // Cancel the release task
             tasks.remove(player.getUniqueId()).cancel();
         }
+    }
+
+    @Override
+    public void applyUnequip(final LivingEntity user, final int level) {
+        times.remove(user.getUniqueId());
+        tasks.remove(user.getUniqueId());
     }
 }
